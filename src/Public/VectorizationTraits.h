@@ -42,6 +42,13 @@ namespace Leibniz::Vectorization::Traits {
 	template<typename T>
 	using  VectorizedMask = VectorizeMaskType<T>::type;
 
+	template<typename T, typename = void>
+	struct LEIBNIZ ScalarType final {
+		using type = void;
+	};
+
+	template<typename T>
+	using ScalarForm = ScalarType<T>::type;
 
 	struct Blank final {};
 
@@ -69,4 +76,6 @@ namespace Leibniz::Vectorization::Traits {
 	template<typename T = Blank>
 	inline static constexpr LEIBNIZ VectorizationBackend IntrospectBackend = VectorizationIntrospect<T>::s_Backend;
 
+	template<typename T>
+	inline static constexpr LEIBNIZ bool TemplateFalseV = false;
 }
