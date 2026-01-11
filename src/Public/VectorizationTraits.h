@@ -1,33 +1,33 @@
 ﻿#pragma once
-#include "Lebnitz.h"
+#include "Leibniz.h"
 
-namespace Lebnitz::Vectorization::Traits {
+namespace Leibniz::Vectorization::Traits {
 
-	enum class LEBNITZ VectorizationBackend : uint8_t {
+	enum class LEIBNIZ VectorizationBackend : uint8_t {
 		UNKNOWN,
 		AVX2
 	};
 
 	template<VectorizationBackend Backend = VectorizationBackend::UNKNOWN>
-	struct LEBNITZ ImplementationType final {
+	struct LEIBNIZ ImplementationType final {
 		static constexpr size_t s_Width = 0;
 		static constexpr size_t s_Alignment = 0;
 	};
 
 	template<VectorizationBackend Backend>
-	inline constexpr LEBNITZ size_t VectorizationWidth = ImplementationType<Backend>::s_Width;
+	inline constexpr LEIBNIZ size_t VectorizationWidth = ImplementationType<Backend>::s_Width;
 
 	template<VectorizationBackend Backend>
-	inline constexpr LEBNITZ size_t VectorizationAlignment = ImplementationType<Backend>::s_Alignment;
+	inline constexpr LEIBNIZ size_t VectorizationAlignment = ImplementationType<Backend>::s_Alignment;
 
 	template<>
-	struct LEBNITZ ImplementationType<VectorizationBackend::AVX2> final{
+	struct LEIBNIZ ImplementationType<VectorizationBackend::AVX2> final{
 		static constexpr size_t s_Width = 256;
 		static constexpr size_t s_Alignment = 32;
 	};
 
 	template<typename T, typename = void>
-	struct LEBNITZ VectorizeType final {
+	struct LEIBNIZ VectorizeType final {
 		using type = void;
 	};
 
@@ -35,7 +35,7 @@ namespace Lebnitz::Vectorization::Traits {
 	using VectorizedForm = VectorizeType<T>::type;
 
 	template<typename T, typename = void>
-	struct LEBNITZ VectorizeMaskType final {
+	struct LEIBNIZ VectorizeMaskType final {
 		using type = void;
 	};
 
@@ -46,7 +46,7 @@ namespace Lebnitz::Vectorization::Traits {
 	struct Blank final {};
 
 	template<typename T = Blank>
-	struct LEBNITZ VectorizationIntrospect final {
+	struct LEIBNIZ VectorizationIntrospect final {
 		static constexpr size_t s_Alignment = 0;
 		static constexpr size_t s_Lanes = 0;
 		static constexpr size_t s_Width = 0;
@@ -55,18 +55,18 @@ namespace Lebnitz::Vectorization::Traits {
 	};
 
 	template<typename T = Blank>
-	inline static constexpr LEBNITZ size_t IntrospectAlignment = VectorizationIntrospect<T>::s_Alignment;
+	inline static constexpr LEIBNIZ size_t IntrospectAlignment = VectorizationIntrospect<T>::s_Alignment;
 
 	template<typename T = Blank>
-	inline static constexpr LEBNITZ size_t IntrospectLanes = VectorizationIntrospect<T>::s_Lanes;
+	inline static constexpr LEIBNIZ size_t IntrospectLanes = VectorizationIntrospect<T>::s_Lanes;
 
 	template<typename T = Blank>
-	inline static constexpr LEBNITZ size_t IntrospectWidth = VectorizationIntrospect<T>::s_Width;
+	inline static constexpr LEIBNIZ size_t IntrospectWidth = VectorizationIntrospect<T>::s_Width;
 
 	template<typename T = Blank>
-	inline static constexpr LEBNITZ const char* IntrospectTypeName = VectorizationIntrospect<T>::s_Name;
+	inline static constexpr LEIBNIZ const char* IntrospectTypeName = VectorizationIntrospect<T>::s_Name;
 
 	template<typename T = Blank>
-	inline static constexpr LEBNITZ VectorizationBackend IntrospectBackend = VectorizationIntrospect<T>::s_Backend;
+	inline static constexpr LEIBNIZ VectorizationBackend IntrospectBackend = VectorizationIntrospect<T>::s_Backend;
 
 }

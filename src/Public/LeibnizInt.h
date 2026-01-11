@@ -1,8 +1,8 @@
 #pragma once	
-#include "Lebnitz.h"
+#include "Leibniz.h"
 #include "NumericTraits.h"
 
-namespace Lebnitz::Numerics {
+namespace Leibniz::Numerics {
 
 	using Byte = std::int8_t;
 	using Int16 = std::int16_t;
@@ -16,7 +16,7 @@ namespace Lebnitz::Numerics {
 
 }
 
-namespace Lebnitz::Traits {
+namespace Leibniz::Traits {
 	// ---- Signed Integers ----
 
 	template<> struct IsNumeric<Numerics::Byte> : std::true_type{};
