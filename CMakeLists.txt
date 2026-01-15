@@ -9,7 +9,7 @@ file(GLOB_RECURSE LEIBNIZ_PRIVATE   "src/Private/*.cpp")
 
 add_library(Leibniz SHARED
     ${LEIBNIZ_PRIVATE} ${LEIBNIZ_PUBLIC}
-  )
+)
 
 target_include_directories(Leibniz PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Public
