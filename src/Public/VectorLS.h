@@ -10,8 +10,8 @@
 
 namespace Leibniz::Vectorization::mem256 {
 	// Aligned Load
-	template<typename T>
-	[[nodiscard]] T load(const Traits::ScalarForm<T>* p_Memory) noexcept {
+	template<typename T>  requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
+		[[nodiscard]] T load(const Traits::ScalarForm<T>*p_Memory) noexcept {
 		using scalar = Traits::ScalarForm<T>;
 		if constexpr (Leibniz::Traits::IsIntV<scalar>)
 			return T{ _mm256_load_si256(reinterpret_cast<const v256::Reg256i*>(p_Memory)) };
@@ -24,7 +24,8 @@ namespace Leibniz::Vectorization::mem256 {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid floating point load. Invariant violated");
 				unreachable();
 			}
-		} else {
+		}
+		else {
 			static_assert(Traits::TemplateFalseV<T>, "Invalid integer load. Invariants violated");
 			unreachable();
 		}
@@ -32,8 +33,8 @@ namespace Leibniz::Vectorization::mem256 {
 	}
 
 	// Unaligned load
-	template<typename T>
-	[[nodiscard]] T loadU(const Traits::ScalarForm<T>* p_Memory) noexcept {
+	template<typename T>  requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
+		[[nodiscard]] T loadU(const Traits::ScalarForm<T>*p_Memory) noexcept {
 		using scalar = Traits::ScalarForm<T>;
 		if constexpr (Leibniz::Traits::IsIntV<scalar>)
 			return T{ _mm256_loadu_si256(reinterpret_cast<const v256::Reg256i*>(p_Memory)) };
@@ -46,7 +47,8 @@ namespace Leibniz::Vectorization::mem256 {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid floating point load. Invariant violated");
 				unreachable();
 			}
-		} else {
+		}
+		else {
 			static_assert(Traits::TemplateFalseV<T>, "Invalid integer load. Invariants violated");
 			unreachable();
 		}
@@ -55,8 +57,8 @@ namespace Leibniz::Vectorization::mem256 {
 
 	// Broadcasting
 
-	template<typename T>
-	[[nodiscard]] T broadcast(const Traits::ScalarForm<T>& v_Value) noexcept {
+	template<typename T>  requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
+		[[nodiscard]] T broadcast(const Traits::ScalarForm<T>&v_Value) noexcept {
 		using scalar = Traits::ScalarForm<T>;
 
 		if constexpr (Leibniz::Traits::IsIntV<scalar>) {
@@ -73,7 +75,8 @@ namespace Leibniz::Vectorization::mem256 {
 					"Invalid integer Stripe lane count");
 				unreachable();
 			}
-		} else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
+		}
+		else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
 			if constexpr (Traits::IntrospectLanes<T> == 8)
 				return T{ _mm256_set1_ps(v_Value) };
 			else if constexpr (Traits::IntrospectLanes<T> == 4)
@@ -83,7 +86,8 @@ namespace Leibniz::Vectorization::mem256 {
 					"Invalid float Stripe lane count");
 				unreachable();
 			}
-		} else {
+		}
+		else {
 			static_assert(Traits::TemplateFalseV<T>,
 				"broadcast used with invalid Stripe scalar type");
 			unreachable();
@@ -92,14 +96,15 @@ namespace Leibniz::Vectorization::mem256 {
 		unreachable();
 	}
 
-	template<typename T>
-	[[nodiscard]] T broadcast(const Traits::ScalarForm<T>* p_Memory) noexcept {
+	template<typename T>  requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
+		[[nodiscard]] T broadcast(const Traits::ScalarForm<T>*p_Memory) noexcept {
 		using scalar = Traits::ScalarForm<T>;
 
 		if constexpr (Leibniz::Traits::IsIntV<scalar>) {
 			scalar val = *p_Memory;
 			return broadcast<T>(val);
-		} else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
+		}
+		else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
 			if constexpr (Traits::IntrospectLanes<T> == 8)
 				return T{ _mm256_broadcast_ss(p_Memory) };
 			else if constexpr (Traits::IntrospectLanes<T> == 4)
@@ -108,7 +113,8 @@ namespace Leibniz::Vectorization::mem256 {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid float Stripe lane count");
 				unreachable();
 			}
-		} else {
+		}
+		else {
 			static_assert(Traits::TemplateFalseV<T>, "Invalid broadcast scalar type");
 			unreachable();
 		}
@@ -116,8 +122,8 @@ namespace Leibniz::Vectorization::mem256 {
 		unreachable();
 	}
 
-	template<typename T>
-	void store(Traits::ScalarForm<T>* p_Memory, T v_Register) {
+	template<typename T>  requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
+		void store(Traits::ScalarForm<T>*p_Memory, T v_Register) {
 		using scalar = Traits::ScalarForm<T>;
 		if constexpr (Leibniz::Traits::IsIntV<scalar>)
 			_mm256_store_si256(reinterpret_cast<__m256i*>(p_Memory), v_Register.m_VectorBin);
@@ -127,11 +133,12 @@ namespace Leibniz::Vectorization::mem256 {
 			else if constexpr (Traits::IntrospectLanes<T> == 4)
 				_mm256_store_pd(p_Memory, v_Register.m_VectorBin);
 			else static_assert(Traits::TemplateFalseV<T>, "Invalid Float Stripe Lanes");
-		} else static_assert(Traits::TemplateFalseV<T>, "Invalid Stripe data type");
+		}
+		else static_assert(Traits::TemplateFalseV<T>, "Invalid Stripe data type");
 	}
 
-	template<typename T>
-	void storeU(Traits::ScalarForm<T>* p_Memory, T v_Register) {
+	template<typename T>  requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
+		void storeU(Traits::ScalarForm<T>*p_Memory, T v_Register) {
 		using scalar = Traits::ScalarForm<T>;
 		if constexpr (Leibniz::Traits::IsIntV<scalar>)
 			_mm256_storeu_si256(reinterpret_cast<__m256i*>(p_Memory), v_Register.m_VectorBin);
@@ -141,11 +148,12 @@ namespace Leibniz::Vectorization::mem256 {
 			else if constexpr (Traits::IntrospectLanes<T> == 4)
 				_mm256_storeu_pd(p_Memory, v_Register.m_VectorBin);
 			else static_assert(Traits::TemplateFalseV<T>, "Invalid Float Stripe Lanes");
-		} else static_assert(Traits::TemplateFalseV<T>, "Invalid Stripe data type");
+		}
+		else static_assert(Traits::TemplateFalseV<T>, "Invalid Stripe data type");
 	}
 
-	template<typename T>
-	[[nodiscard]] T zero() {
+	template<typename T> requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
+		[[nodiscard]] T zero() {
 		using scalar = Traits::ScalarForm<T>;
 		if constexpr (Leibniz::Traits::IsIntV<scalar>)
 			return T{ _mm256_setzero_si256() };
@@ -158,11 +166,44 @@ namespace Leibniz::Vectorization::mem256 {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid Float Stripe lanes");
 				unreachable();
 			}
-		} else {
+		}
+		else {
 			static_assert(Traits::TemplateFalseV<T>, "Invalid Stripe data type");
 			unreachable();
 		}
 		unreachable();
+	}
+
+	template<typename T>
+		requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
+	[[nodiscard]] T maskedLoad(
+		Traits::VectorizeMaskType<T> mask,
+		const Traits::ScalarForm<T>*p_Memory,
+		T v_Default) noexcept
+	{
+		T loaded = mem256::load<T>(p_Memory);
+		return select(mask, loaded, v_Default);
+	}
+
+	template<typename T>
+		requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
+	[[nodiscard]] T maskedLoad(
+		Traits::VectorizeMaskType<T> mask,
+		const Traits::ScalarForm<T>*p_Memory) noexcept
+	{
+		return maskedLoad(mask, p_Memory, mem256::zero<T>());
+	}
+
+	template<typename T>
+		requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
+	void maskedStore(
+		Traits::VectorizeMaskType<T> mask,
+		Traits::ScalarForm<T>*p_Memory,
+		T v_Value) noexcept
+	{
+		T current = mem256::load<T>(p_Memory);
+		T merged = select(mask, v_Value, current);
+		mem256::store<T>(p_Memory, merged);
 	}
 }
 

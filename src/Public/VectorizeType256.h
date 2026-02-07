@@ -20,7 +20,7 @@ namespace Leibniz::Vectorization::v256 {
 		Reg256i m_VectorBin;
 
 		StripeU8() = delete;
-		explicit StripeU8(Reg256i v_Raw) noexcept: m_VectorBin(v_Raw) {}
+		explicit StripeU8(Reg256i v_Raw) noexcept : m_VectorBin(v_Raw) {}
 
 		StripeU8(const StripeU8&) = default;
 		StripeU8& operator=(const StripeU8&) = default;
@@ -199,10 +199,30 @@ namespace Leibniz::Vectorization::v256 {
 
 	static_assert(std::is_trivially_copyable_v<StripeFP32>, "StripeFP32 must be trivially copyable");
 	static_assert(std::is_trivially_copyable_v<StripeFP64>, "StripeFP64 must be trivially copyable");
-
 }
 
 namespace Leibniz::Vectorization::Traits {
+	template<>
+	struct LEIBNIZ IsVectorStripe<v256::Stripe8> final : std::true_type {};
+	template<>
+	struct LEIBNIZ IsVectorStripe<v256::Stripe16> final : std::true_type {};
+	template<>
+	struct LEIBNIZ IsVectorStripe<v256::Stripe32> final : std::true_type {};
+	template<>
+	struct LEIBNIZ IsVectorStripe<v256::Stripe64> final : std::true_type {};
+	template<>
+	struct LEIBNIZ IsVectorStripe<v256::StripeU8> final : std::true_type {};
+	template<>
+	struct LEIBNIZ IsVectorStripe<v256::StripeU16> final : std::true_type {};
+	template<>
+	struct LEIBNIZ IsVectorStripe<v256::StripeU32> final : std::true_type {};
+	template<>
+	struct LEIBNIZ IsVectorStripe<v256::StripeU64> final : std::true_type {};
+	template<>
+	struct LEIBNIZ IsVectorStripe<v256::StripeFP32> final : std::true_type {};
+	template<>
+	struct LEIBNIZ IsVectorStripe<v256::StripeFP64> final : std::true_type {};
+
 	template<>
 	struct VectorizationIntrospect<v256::StripeU8> {
 		static constexpr size_t s_Alignment = 32;

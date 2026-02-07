@@ -173,6 +173,19 @@ namespace Leibniz::Vectorization::Traits {
 	struct VectorizeMaskType<v256::StripeU8> {
 		using type = msk256::Mask32;
 	};
+
+	template<>
+	struct LEIBNIZ IsVectorMask<msk256::Mask4> final : std::true_type {};
+
+	template<>
+	struct LEIBNIZ IsVectorMask<msk256::Mask8> final : std::true_type {};	
+	
+	template<>
+	struct LEIBNIZ IsVectorMask<msk256::Mask16> final : std::true_type {};
+
+	template<>
+	struct LEIBNIZ IsVectorMask<msk256::Mask32> final : std::true_type {};
+
 }
 
 namespace Leibniz::Vectorization::msk256 {

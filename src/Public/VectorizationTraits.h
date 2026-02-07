@@ -52,6 +52,19 @@ namespace Leibniz::Vectorization::Traits {
 
 	struct Blank final {};
 
+	template<typename T, typename = void>
+	struct LEIBNIZ IsVectorStripe final : std::false_type {};
+
+	template<typename T, typename = void>
+	struct LEIBNIZ IsVectorMask final : std::false_type {};
+
+	template<typename T>
+	inline static constexpr LEIBNIZ bool IsVectorStripeV = IsVectorStripe<T>::value;
+
+	template<typename T>
+	inline static constexpr LEIBNIZ bool IsVectorMaskV = IsVectorMask<T>::value;
+
+
 	template<typename T = Blank>
 	struct LEIBNIZ VectorizationIntrospect final {
 		static constexpr size_t s_Alignment = 0;
