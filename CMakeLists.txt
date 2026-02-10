@@ -23,3 +23,7 @@ target_compile_options(Leibniz PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX2>
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mavx2>
 )
+
+target_compile_definitions(Leibniz PRIVATE        
+        LEIBNIZ_SHARED,
+        LEIBNIZ_BUILDING_RUNTIME)

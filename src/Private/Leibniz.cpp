@@ -1,2 +1,2 @@
 #include "Leibniz.h"
-void LEIBNIZ Init() {}
+void LEIBNIZ_RUNTIME_API Init() {}

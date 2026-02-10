@@ -25,7 +25,7 @@ namespace Leibniz::Vectorization::Ops {
 				return T{ _mm256_sub_epi8(_mm256_setzero_si256(), a.m_VectorBin) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid integer Stripe lanes");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else if constexpr (Leibniz::Traits::IsFloatV<Scalar>) {
@@ -35,12 +35,12 @@ namespace Leibniz::Vectorization::Ops {
 				return T{ _mm256_sub_pd(_mm256_setzero_pd(), a.m_VectorBin) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid float Stripe lanes");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else {
 			static_assert(Traits::TemplateFalseV<T>, "negate() used with unsupported Stripe type");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
 	}
 
@@ -58,7 +58,7 @@ namespace Leibniz::Vectorization::Ops {
 				return T{ _mm256_add_epi8(v_OperandA.m_VectorBin, v_OperandB.m_VectorBin) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid Integer Stripe lanes");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
@@ -68,14 +68,13 @@ namespace Leibniz::Vectorization::Ops {
 				return T{ _mm256_add_pd(v_OperandA.m_VectorBin, v_OperandB.m_VectorBin) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid Float Stripe Lanes");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else {
 			static_assert(Traits::TemplateFalseV<T>, "Unsupported Stripe data type used");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
-		unreachable();
 	}
 
 	template<typename T> requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
@@ -92,7 +91,7 @@ namespace Leibniz::Vectorization::Ops {
 				return T{ _mm256_sub_epi8(v_OperandA.m_VectorBin, v_OperandB.m_VectorBin) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid Integer Stripe lanes");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
@@ -102,14 +101,13 @@ namespace Leibniz::Vectorization::Ops {
 				return T{ _mm256_sub_pd(v_OperandA.m_VectorBin, v_OperandB.m_VectorBin) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid Float Stripe Lanes");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else {
 			static_assert(Traits::TemplateFalseV<T>, "Unsupported Stripe data type used");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
-		unreachable();
 	}
 
 	template<typename T>  requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
@@ -122,7 +120,7 @@ namespace Leibniz::Vectorization::Ops {
 				return T{ _mm256_mullo_epi16(v_OperandA.m_VectorBin, v_OperandB.m_VectorBin) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid Integer Stripe lanes");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
@@ -132,14 +130,13 @@ namespace Leibniz::Vectorization::Ops {
 				return T{ _mm256_mul_pd(v_OperandA.m_VectorBin, v_OperandB.m_VectorBin) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid Float Stripe Lanes");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else {
 			static_assert(Traits::TemplateFalseV<T>, "Unsupported Stripe data type used");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
-		unreachable();
 	}
 
 	template<typename T>  requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
@@ -147,7 +144,7 @@ namespace Leibniz::Vectorization::Ops {
 		using scalar = Traits::ScalarForm<T>;
 		if constexpr (Leibniz::Traits::IsIntV<scalar>) {
 			static_assert(Traits::TemplateFalseV<T>, "Integer division not supported ");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
 		else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
 			if constexpr (Traits::IntrospectLanes<T> == 8)
@@ -156,14 +153,13 @@ namespace Leibniz::Vectorization::Ops {
 				return T{ _mm256_div_pd(v_OperandA.m_VectorBin, v_OperandB.m_VectorBin) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid Float Stripe Lanes");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else {
 			static_assert(Traits::TemplateFalseV<T>, "Unsupported Stripe data type used");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
-		unreachable();
 	}
 
 	// Bitwise Ops
@@ -237,7 +233,7 @@ namespace Leibniz::Vectorization::Ops {
 				return Mask{ _mm256_cmpeq_epi8(a.m_VectorBin, b.m_VectorBin) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid integer lane count");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else if constexpr (Leibniz::Traits::IsFloatV<Scalar>) {
@@ -250,12 +246,12 @@ namespace Leibniz::Vectorization::Ops {
 					_mm256_cmp_pd(a.m_VectorBin, b.m_VectorBin, _CMP_EQ_OQ)) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid float lane count");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else {
 			static_assert(Traits::TemplateFalseV<T>, "Unsupported Stripe type");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
 	}
 
@@ -284,7 +280,7 @@ namespace Leibniz::Vectorization::Ops {
 				return Mask{ _mm256_cmpgt_epi8(b.m_VectorBin, a.m_VectorBin) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>);
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else if constexpr (Leibniz::Traits::IsUnsignedIntV<Scalar>) {
@@ -315,7 +311,7 @@ namespace Leibniz::Vectorization::Ops {
 			}
 			else {
 				static_assert(Traits::TemplateFalseV<T>);
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else if constexpr (Leibniz::Traits::IsFloatV<Scalar>) {
@@ -328,12 +324,12 @@ namespace Leibniz::Vectorization::Ops {
 					_mm256_cmp_pd(a.m_VectorBin, b.m_VectorBin, _CMP_LT_OQ)) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>);
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else {
 			static_assert(Traits::TemplateFalseV<T>);
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
 	}
 
@@ -370,7 +366,7 @@ namespace Leibniz::Vectorization::Ops {
 										   _mm256_castsi256_pd(mask.m_VectorMask)) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid float Stripe lanes");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 
 		}
@@ -382,7 +378,7 @@ namespace Leibniz::Vectorization::Ops {
 		}
 		else {
 			static_assert(Traits::TemplateFalseV<T>, "select() used with unsupported Stripe type");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
 	}
 
@@ -401,7 +397,7 @@ namespace Leibniz::Vectorization::Ops {
 			return T{ _mm256_slli_epi8(a.m_VectorBin, shift) };
 		else {
 			static_assert(Traits::TemplateFalseV<T>, "Invalid integer Stripe lanes");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
 	}
 
@@ -420,7 +416,7 @@ namespace Leibniz::Vectorization::Ops {
 			return T{ _mm256_srli_epi8(a.m_VectorBin, shift) };
 		else {
 			static_assert(Traits::TemplateFalseV<T>, "Invalid unsigned integer Stripe lanes");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
 	}
 
@@ -438,7 +434,7 @@ namespace Leibniz::Vectorization::Ops {
 		else {
 			static_assert(Traits::TemplateFalseV<T>,
 				"Arithmetic right shift not supported for this integer Stripe width");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
 	}
 
@@ -452,6 +448,12 @@ namespace Leibniz::Vectorization::Ops {
 		requires Traits::IsVectorMaskV<M>
 	[[nodiscard]] bool none(M m) noexcept {
 		return _mm256_movemask_epi8(m.m_VectorMask) == 0;
+	}
+
+	template<typename M>
+		requires Traits::IsVectorMaskV<M>
+	[[nodiscard]] bool all(M m) noexcept {
+		return _mm256_movemask_epi8(m.m_VectorMask) == 0xFFFFFFFF;
 	}
 
 }

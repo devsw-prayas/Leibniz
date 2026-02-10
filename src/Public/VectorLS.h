@@ -22,14 +22,14 @@ namespace Leibniz::Vectorization::mem256 {
 				return T{ _mm256_load_ps(p_Memory) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid floating point load. Invariant violated");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else {
 			static_assert(Traits::TemplateFalseV<T>, "Invalid integer load. Invariants violated");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
-		unreachable();
+		LEIBNIZ_UNREACHABLE();
 	}
 
 	// Unaligned load
@@ -45,14 +45,14 @@ namespace Leibniz::Vectorization::mem256 {
 				return T{ _mm256_loadu_ps(p_Memory) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid floating point load. Invariant violated");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else {
 			static_assert(Traits::TemplateFalseV<T>, "Invalid integer load. Invariants violated");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
-		unreachable();
+		LEIBNIZ_UNREACHABLE();
 	}
 
 	// Broadcasting
@@ -73,7 +73,7 @@ namespace Leibniz::Vectorization::mem256 {
 			else {
 				static_assert(Traits::TemplateFalseV<T>,
 					"Invalid integer Stripe lane count");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
@@ -84,16 +84,16 @@ namespace Leibniz::Vectorization::mem256 {
 			else {
 				static_assert(Traits::TemplateFalseV<T>,
 					"Invalid float Stripe lane count");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else {
 			static_assert(Traits::TemplateFalseV<T>,
 				"broadcast used with invalid Stripe scalar type");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
 
-		unreachable();
+		LEIBNIZ_UNREACHABLE();
 	}
 
 	template<typename T>  requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
@@ -111,15 +111,15 @@ namespace Leibniz::Vectorization::mem256 {
 				return T{ _mm256_broadcast_sd(p_Memory) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid float Stripe lane count");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else {
 			static_assert(Traits::TemplateFalseV<T>, "Invalid broadcast scalar type");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
 
-		unreachable();
+		LEIBNIZ_UNREACHABLE();
 	}
 
 	template<typename T>  requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
@@ -164,14 +164,14 @@ namespace Leibniz::Vectorization::mem256 {
 				return T{ _mm256_setzero_pd() };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid Float Stripe lanes");
-				unreachable();
+				LEIBNIZ_UNREACHABLE();
 			}
 		}
 		else {
 			static_assert(Traits::TemplateFalseV<T>, "Invalid Stripe data type");
-			unreachable();
+			LEIBNIZ_UNREACHABLE();
 		}
-		unreachable();
+		LEIBNIZ_UNREACHABLE();
 	}
 
 	template<typename T>

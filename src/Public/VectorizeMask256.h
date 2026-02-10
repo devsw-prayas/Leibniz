@@ -3,11 +3,9 @@
 #include "LeibnizInt.h"
 #include "VectorizationTraits.h"
 #include "VectorizeType256.h"
-#include <immintrin.h>
+#include <VecIntrin.h>
 
-#if !defined(__AVX2__) && !defined(LEIBNIZ_EDITOR_MODE)
-#error "Leibniz SIMD Vector Backend requires AVX2 flag to be enabled during compilation"
-#else
+#if VEC_INTRIN
 namespace Leibniz::Vectorization::msk256 {
 	constexpr Numerics::UByte  EnabledLane1B = 0xFF;
 	constexpr Numerics::UByte  DisabledLane1B = 0x00;
@@ -23,7 +21,7 @@ namespace Leibniz::Vectorization::msk256 {
 
 	using Mask256 = __m256i;
 
-	struct LEIBNIZ alignas(32) Mask4 final {
+	struct LEIBNIZ_RUNTIME_API alignas(32) Mask4 final {
 		Mask256	m_VectorMask;
 		Mask4() noexcept : m_VectorMask(_mm256_setzero_si256()) {}
 		Mask4(const Mask4&) = default;
@@ -33,7 +31,7 @@ namespace Leibniz::Vectorization::msk256 {
 		Mask4& operator=(Mask4&&) noexcept = default;
 	};
 
-	struct LEIBNIZ alignas(32) Mask8 final {
+	struct LEIBNIZ_RUNTIME_API alignas(32) Mask8 final {
 		Mask256	m_VectorMask;
 
 		Mask8() noexcept : m_VectorMask(_mm256_setzero_si256()) {}
@@ -44,7 +42,7 @@ namespace Leibniz::Vectorization::msk256 {
 		Mask8& operator=(Mask8&&) noexcept = default;
 	};
 
-	struct LEIBNIZ alignas(32) Mask16 final {
+	struct LEIBNIZ_RUNTIME_API alignas(32) Mask16 final {
 		Mask256	m_VectorMask;
 
 		Mask16() noexcept : m_VectorMask(_mm256_setzero_si256()) {}
@@ -55,7 +53,7 @@ namespace Leibniz::Vectorization::msk256 {
 		Mask16& operator=(Mask16&&) noexcept = default;
 	};
 
-	struct LEIBNIZ alignas(32) Mask32 final {
+	struct LEIBNIZ_RUNTIME_API alignas(32) Mask32 final {
 		Mask256	m_VectorMask;
 
 		Mask32() noexcept : m_VectorMask(_mm256_setzero_si256()) {}
@@ -175,16 +173,16 @@ namespace Leibniz::Vectorization::Traits {
 	};
 
 	template<>
-	struct LEIBNIZ IsVectorMask<msk256::Mask4> final : std::true_type {};
+	struct LEIBNIZ_RUNTIME_API IsVectorMask<msk256::Mask4> final : std::true_type {};
 
 	template<>
-	struct LEIBNIZ IsVectorMask<msk256::Mask8> final : std::true_type {};	
+	struct LEIBNIZ_RUNTIME_API IsVectorMask<msk256::Mask8> final : std::true_type {};	
 	
 	template<>
-	struct LEIBNIZ IsVectorMask<msk256::Mask16> final : std::true_type {};
+	struct LEIBNIZ_RUNTIME_API IsVectorMask<msk256::Mask16> final : std::true_type {};
 
 	template<>
-	struct LEIBNIZ IsVectorMask<msk256::Mask32> final : std::true_type {};
+	struct LEIBNIZ_RUNTIME_API IsVectorMask<msk256::Mask32> final : std::true_type {};
 
 }
 
