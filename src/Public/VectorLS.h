@@ -1,12 +1,13 @@
 #pragma once
 #include "Leibniz.h"
-#include "LeibnizInt.h"
-#include "LeibnizFloat.h"
 #include "VectorizeType256.h"
 
-#if !defined(__AVX2__) && !defined(LEIBNIZ_EDITOR_MODE)
-#error "Leibniz SIMD Vector Backend requires AVX2 flag to be enabled during compilation"
-#else
+#define ALLOW_VECTOR_INTRIN_256
+#include <v256Intrin.h>
+
+#include "VectorOps256.h"
+
+//TODO move to AVX2 only support
 
 namespace Leibniz::Vectorization::mem256 {
 	// Aligned Load
@@ -17,9 +18,9 @@ namespace Leibniz::Vectorization::mem256 {
 			return T{ _mm256_load_si256(reinterpret_cast<const v256::Reg256i*>(p_Memory)) };
 		else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
 			if constexpr (Leibniz::Vectorization::Traits::IntrospectLanes<T> == 4)
-				return T{ _mm256_load_pd(p_Memory) };
+				return T{ Intrinsic::v256::loadAligned(p_Memory) };
 			else if constexpr (Leibniz::Vectorization::Traits::IntrospectLanes<T> == 8)
-				return T{ _mm256_load_ps(p_Memory) };
+				return T{ Intrinsic::v256::loadAligned(p_Memory) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid floating point load. Invariant violated");
 				LEIBNIZ_UNREACHABLE();
@@ -29,7 +30,6 @@ namespace Leibniz::Vectorization::mem256 {
 			static_assert(Traits::TemplateFalseV<T>, "Invalid integer load. Invariants violated");
 			LEIBNIZ_UNREACHABLE();
 		}
-		LEIBNIZ_UNREACHABLE();
 	}
 
 	// Unaligned load
@@ -40,9 +40,9 @@ namespace Leibniz::Vectorization::mem256 {
 			return T{ _mm256_loadu_si256(reinterpret_cast<const v256::Reg256i*>(p_Memory)) };
 		else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
 			if constexpr (Leibniz::Vectorization::Traits::IntrospectLanes<T> == 4)
-				return T{ _mm256_loadu_pd(p_Memory) };
+				return T{ Intrinsic::v256::loadUnaligned(p_Memory) };
 			else if constexpr (Leibniz::Vectorization::Traits::IntrospectLanes<T> == 8)
-				return T{ _mm256_loadu_ps(p_Memory) };
+				return T{ Intrinsic::v256::loadUnaligned(p_Memory) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid floating point load. Invariant violated");
 				LEIBNIZ_UNREACHABLE();
@@ -52,7 +52,6 @@ namespace Leibniz::Vectorization::mem256 {
 			static_assert(Traits::TemplateFalseV<T>, "Invalid integer load. Invariants violated");
 			LEIBNIZ_UNREACHABLE();
 		}
-		LEIBNIZ_UNREACHABLE();
 	}
 
 	// Broadcasting
@@ -63,13 +62,13 @@ namespace Leibniz::Vectorization::mem256 {
 
 		if constexpr (Leibniz::Traits::IsIntV<scalar>) {
 			if constexpr (Traits::IntrospectLanes<T> == 4)
-				return T{ _mm256_set1_epi64x(static_cast<long long>(v_Value)) };
+				return T{ Intrinsic::v256::setOne(static_cast<long long>(v_Value)) };
 			else if constexpr (Traits::IntrospectLanes<T> == 8)
-				return T{ _mm256_set1_epi32(static_cast<int>(v_Value)) };
+				return T{ Intrinsic::v256::setOne(static_cast<int>(v_Value)) };
 			else if constexpr (Traits::IntrospectLanes<T> == 16)
-				return T{ _mm256_set1_epi16(static_cast<short>(v_Value)) };
+				return T{ Intrinsic::v256::setOne(static_cast<short>(v_Value)) };
 			else if constexpr (Traits::IntrospectLanes<T> == 32)
-				return T{ _mm256_set1_epi8(static_cast<char>(v_Value)) };
+				return T{ Intrinsic::v256::setOne(static_cast<char>(v_Value)) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>,
 					"Invalid integer Stripe lane count");
@@ -78,9 +77,9 @@ namespace Leibniz::Vectorization::mem256 {
 		}
 		else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
 			if constexpr (Traits::IntrospectLanes<T> == 8)
-				return T{ _mm256_set1_ps(v_Value) };
+				return T{ Intrinsic::v256::setOne(v_Value) };
 			else if constexpr (Traits::IntrospectLanes<T> == 4)
-				return T{ _mm256_set1_pd(v_Value) };
+				return T{ Intrinsic::v256::setOne(v_Value) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>,
 					"Invalid float Stripe lane count");
@@ -92,8 +91,6 @@ namespace Leibniz::Vectorization::mem256 {
 				"broadcast used with invalid Stripe scalar type");
 			LEIBNIZ_UNREACHABLE();
 		}
-
-		LEIBNIZ_UNREACHABLE();
 	}
 
 	template<typename T>  requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
@@ -106,9 +103,9 @@ namespace Leibniz::Vectorization::mem256 {
 		}
 		else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
 			if constexpr (Traits::IntrospectLanes<T> == 8)
-				return T{ _mm256_broadcast_ss(p_Memory) };
+				return T{ Intrinsic::v256::broadcastScalar256(p_Memory) };
 			else if constexpr (Traits::IntrospectLanes<T> == 4)
-				return T{ _mm256_broadcast_sd(p_Memory) };
+				return T{ Intrinsic::v256::broadcastScalar256(p_Memory) };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid float Stripe lane count");
 				LEIBNIZ_UNREACHABLE();
@@ -118,20 +115,18 @@ namespace Leibniz::Vectorization::mem256 {
 			static_assert(Traits::TemplateFalseV<T>, "Invalid broadcast scalar type");
 			LEIBNIZ_UNREACHABLE();
 		}
-
-		LEIBNIZ_UNREACHABLE();
 	}
 
 	template<typename T>  requires Traits::IntrospectBackend<T> != Traits::VectorizationBackend::UNKNOWN
 		void store(Traits::ScalarForm<T>*p_Memory, T v_Register) {
 		using scalar = Traits::ScalarForm<T>;
 		if constexpr (Leibniz::Traits::IsIntV<scalar>)
-			_mm256_store_si256(reinterpret_cast<__m256i*>(p_Memory), v_Register.m_VectorBin);
+			Intrinsic::v256::storeAligned(reinterpret_cast<__m256i*>(p_Memory), v_Register.m_VectorBin);
 		else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
 			if constexpr (Traits::IntrospectLanes<T> == 8)
-				_mm256_store_ps(p_Memory, v_Register.m_VectorBin);
+				Intrinsic::v256::storeAligned(p_Memory, v_Register.m_VectorBin);
 			else if constexpr (Traits::IntrospectLanes<T> == 4)
-				_mm256_store_pd(p_Memory, v_Register.m_VectorBin);
+				Intrinsic::v256::storeAligned(p_Memory, v_Register.m_VectorBin);
 			else static_assert(Traits::TemplateFalseV<T>, "Invalid Float Stripe Lanes");
 		}
 		else static_assert(Traits::TemplateFalseV<T>, "Invalid Stripe data type");
@@ -141,12 +136,12 @@ namespace Leibniz::Vectorization::mem256 {
 		void storeU(Traits::ScalarForm<T>*p_Memory, T v_Register) {
 		using scalar = Traits::ScalarForm<T>;
 		if constexpr (Leibniz::Traits::IsIntV<scalar>)
-			_mm256_storeu_si256(reinterpret_cast<__m256i*>(p_Memory), v_Register.m_VectorBin);
+			Intrinsic::v256::storeUnaligned(reinterpret_cast<__m256i*>(p_Memory), v_Register.m_VectorBin);
 		else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
 			if constexpr (Traits::IntrospectLanes<T> == 8)
-				_mm256_storeu_ps(p_Memory, v_Register.m_VectorBin);
+				Intrinsic::v256::storeUnaligned(p_Memory, v_Register.m_VectorBin);
 			else if constexpr (Traits::IntrospectLanes<T> == 4)
-				_mm256_storeu_pd(p_Memory, v_Register.m_VectorBin);
+				Intrinsic::v256::storeUnaligned(p_Memory, v_Register.m_VectorBin);
 			else static_assert(Traits::TemplateFalseV<T>, "Invalid Float Stripe Lanes");
 		}
 		else static_assert(Traits::TemplateFalseV<T>, "Invalid Stripe data type");
@@ -156,12 +151,12 @@ namespace Leibniz::Vectorization::mem256 {
 		[[nodiscard]] T zero() {
 		using scalar = Traits::ScalarForm<T>;
 		if constexpr (Leibniz::Traits::IsIntV<scalar>)
-			return T{ _mm256_setzero_si256() };
+			return T{ Intrinsic::v256::zero() };
 		else if constexpr (Leibniz::Traits::IsFloatV<scalar>) {
 			if constexpr (Traits::IntrospectLanes<T> == 8)
-				return T{ _mm256_setzero_ps() };
+				return T{ Intrinsic::v256::zeroSinglePrecision() };
 			else if constexpr (Traits::IntrospectLanes<T> == 4)
-				return T{ _mm256_setzero_pd() };
+				return T{ Intrinsic::v256::zeroDoublePrecision() };
 			else {
 				static_assert(Traits::TemplateFalseV<T>, "Invalid Float Stripe lanes");
 				LEIBNIZ_UNREACHABLE();
@@ -171,7 +166,6 @@ namespace Leibniz::Vectorization::mem256 {
 			static_assert(Traits::TemplateFalseV<T>, "Invalid Stripe data type");
 			LEIBNIZ_UNREACHABLE();
 		}
-		LEIBNIZ_UNREACHABLE();
 	}
 
 	template<typename T>
@@ -182,7 +176,7 @@ namespace Leibniz::Vectorization::mem256 {
 		T v_Default) noexcept
 	{
 		T loaded = mem256::load<T>(p_Memory);
-		return select(mask, loaded, v_Default);
+		return Ops::select<T>(mask, loaded, v_Default);
 	}
 
 	template<typename T>
@@ -191,7 +185,7 @@ namespace Leibniz::Vectorization::mem256 {
 		Traits::VectorizeMaskType<T> mask,
 		const Traits::ScalarForm<T>*p_Memory) noexcept
 	{
-		return maskedLoad(mask, p_Memory, mem256::zero<T>());
+		return maskedLoad<T>(mask, p_Memory, mem256::zero<T>());
 	}
 
 	template<typename T>
@@ -202,9 +196,7 @@ namespace Leibniz::Vectorization::mem256 {
 		T v_Value) noexcept
 	{
 		T current = mem256::load<T>(p_Memory);
-		T merged = select(mask, v_Value, current);
+		T merged = Intrinsic::v256::maskStore(mask, v_Value, current);
 		mem256::store<T>(p_Memory, merged);
 	}
 }
-
-#endif			  

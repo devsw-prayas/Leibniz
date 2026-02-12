@@ -21,3 +21,9 @@
 
 #include <type_traits>
 #include <array>
+
+#if defined(__INTELLISENSE__) || defined(__clang_analyzer__) || defined(LEIBNIZ_SIMD_SCALAR)
+#define LEIBNIZ_EDITOR_MODE 1
+#else
+#define LEIBNIZ_EDITOR_MODE 0
+#endif

@@ -3,9 +3,7 @@
 #include "LeibnizInt.h"
 #include "VectorizationTraits.h"
 #include "VectorizeType256.h"
-#include <VecIntrin.h>
 
-#if VEC_INTRIN
 namespace Leibniz::Vectorization::msk256 {
 	constexpr Numerics::UByte  EnabledLane1B = 0xFF;
 	constexpr Numerics::UByte  DisabledLane1B = 0x00;
@@ -196,5 +194,3 @@ namespace Leibniz::Vectorization::msk256 {
 	static_assert(256 / Traits::VectorizationIntrospect<Mask32>::s_Lanes == 8, 
 		"Mask32 lane-width invariant violated (expected 8 bits per lane)");
 }
-
-#endif

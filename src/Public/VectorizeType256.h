@@ -3,10 +3,8 @@
 #include "VectorizationTraits.h"
 #include "LeibnizInt.h"
 #include "LeibnizFloat.h"
-#include <VecIntrin.h>
 
 namespace Leibniz::Vectorization::v256 {
-#if VEC_INTRIN
 	// All the Stripe Forms for Integer Stripes
 
 	using Reg256i = __m256i;
@@ -410,4 +408,4 @@ namespace Leibniz::Vectorization::Traits {
 		using type = Numerics::Float64;
 	};
 }
-#endif
+

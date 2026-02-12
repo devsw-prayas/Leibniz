@@ -1,6 +1,10 @@
 #pragma once
 #include <Leibniz.h>
 
+#ifdef ALLOW_VECTOR_INTRIN_128 
+#if !defined(__SSE__) && !defined(LEIBNIZ_EDITOR_MODE)
+#error "Leibniz SIMD Vector Backend requires AVX2 flag to be enabled during compilation"
+#else
 namespace Leibniz::Vectorization::Intrinsic::v128 {
 	using r128i = __m128i;
 	using r128f32 = __m128;
@@ -1737,3 +1741,5 @@ namespace Leibniz::Vectorization::Intrinsic::v128 {
 		return _mm_fmsubadd_pd(a, b, c);
 	}
 }
+#endif
+#endif
