@@ -72,7 +72,8 @@ namespace Leibniz::Numbers::Backend {
 		// Guarantees that the implementation will perform a full-width limb-based multiplication producing an exact unsigned product representation.
 		// The output context must be pre-sized to hold the full result domain (e.g., 2n limbs for n-limb operands in arbitrary precision).
 		// No allocation or growth is performed inside the backend.
-		static void mul(context_& ro_Out, const context_& ro_OpA, const context_& ro_OpB) {
+		template<typename D>
+		static void mul(D& ro_Out, const context_& ro_OpA, const context_& ro_OpB) {
 			derived_::mulImpl(ro_Out, ro_OpA, ro_OpB);
 		}
 
