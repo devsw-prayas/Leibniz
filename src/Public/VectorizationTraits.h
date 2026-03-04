@@ -59,10 +59,10 @@ namespace Leibniz::Vectorization::Traits {
 	struct LEIBNIZ_RUNTIME_API IsVectorMask final : std::false_type {};
 
 	template<typename T>
-	inline static constexpr LEIBNIZ_RUNTIME_API bool IsVectorStripeV = IsVectorStripe<T>::value;
+	inline constexpr LEIBNIZ_RUNTIME_API bool IsVectorStripeV = IsVectorStripe<T>::value;
 
 	template<typename T>
-	inline static constexpr LEIBNIZ_RUNTIME_API bool IsVectorMaskV = IsVectorMask<T>::value;
+	inline constexpr LEIBNIZ_RUNTIME_API bool IsVectorMaskV = IsVectorMask<T>::value;
 
 
 	template<typename T = Blank>
@@ -75,20 +75,20 @@ namespace Leibniz::Vectorization::Traits {
 	};
 
 	template<typename T = Blank>
-	inline static constexpr LEIBNIZ_RUNTIME_API size_t IntrospectAlignment = VectorizationIntrospect<T>::s_Alignment;
+	inline constexpr LEIBNIZ_RUNTIME_API size_t IntrospectAlignment = VectorizationIntrospect<T>::s_Alignment;
 
 	template<typename T = Blank>
-	inline static constexpr LEIBNIZ_RUNTIME_API size_t IntrospectLanes = VectorizationIntrospect<T>::s_Lanes;
+	inline constexpr LEIBNIZ_RUNTIME_API size_t IntrospectLanes = VectorizationIntrospect<T>::s_Lanes;
 
 	template<typename T = Blank>
-	inline static constexpr LEIBNIZ_RUNTIME_API size_t IntrospectWidth = VectorizationIntrospect<T>::s_Width;
+	inline constexpr LEIBNIZ_RUNTIME_API size_t IntrospectWidth = VectorizationIntrospect<T>::s_Width;
 
 	template<typename T = Blank>
-	inline static constexpr LEIBNIZ_RUNTIME_API const char* IntrospectTypeName = VectorizationIntrospect<T>::s_Name;
+	inline constexpr LEIBNIZ_RUNTIME_API const char* IntrospectTypeName = VectorizationIntrospect<T>::s_Name;
 
 	template<typename T = Blank>
-	inline static constexpr LEIBNIZ_RUNTIME_API VectorizationBackend IntrospectBackend = VectorizationIntrospect<T>::s_Backend;
+	inline constexpr LEIBNIZ_RUNTIME_API VectorizationBackend IntrospectBackend = VectorizationIntrospect<T>::s_Backend;
 
 	template<typename T>
-	inline static constexpr LEIBNIZ_RUNTIME_API bool TemplateFalseV = false;
+	inline constexpr LEIBNIZ_RUNTIME_API bool TemplateFalseV = false;
 }

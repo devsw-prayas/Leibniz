@@ -975,55 +975,62 @@ namespace Leibniz::Vectorization::Intrinsic::v128 {
 
 // logical left shift
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r128i shiftLeft16(r128i v, int imm) {
+		r128i shiftLeft16(r128i v) {
 		return _mm_slli_epi16(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r128i shiftLeft32(r128i v, int imm) {
+		r128i shiftLeft32(r128i v) {
 		return _mm_slli_epi32(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r128i shiftLeft64(r128i v, int imm) {
+		r128i shiftLeft64(r128i v) {
 		return _mm_slli_epi64(v, imm);
 	}
 
 	// logical right shift
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r128i shiftRightLogical16(r128i v, int imm) {
+		r128i shiftRightLogical16(r128i v) {
 		return _mm_srli_epi16(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r128i shiftRightLogical32(r128i v, int imm) {
+		r128i shiftRightLogical32(r128i v) {
 		return _mm_srli_epi32(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r128i shiftRightLogical64(r128i v, int imm) {
+		r128i shiftRightLogical64(r128i v) {
 		return _mm_srli_epi64(v, imm);
 	}
 
 	// arithmetic right shift (sign-extending)
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r128i shiftRightArithmetic16(r128i v, int imm) {
+		r128i shiftRightArithmetic16(r128i v) {
 		return _mm_srai_epi16(v, imm);
 	}
-
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r128i shiftRightArithmetic32(r128i v, int imm) {
+		r128i shiftRightArithmetic32(r128i v) {
 		return _mm_srai_epi32(v, imm);
 	}
 
@@ -1082,35 +1089,40 @@ namespace Leibniz::Vectorization::Intrinsic::v128 {
 		return _mm_sra_epi32(v, count);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shuffle results must not be discarded")
-		r128f32 shuffle(r128f32 a, r128f32 b, int imm) {
+		r128f32 shuffle(r128f32 a, r128f32 b) {
 		return _mm_shuffle_ps(a, b, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shuffle results must not be discarded")
-		r128f64 shuffle(r128f64 a, r128f64 b, int imm) {
+		r128f64 shuffle(r128f64 a, r128f64 b) {
 		return _mm_shuffle_pd(a, b, imm);
 	}
 
 	// SSE2 - Shuffle (Integer)
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shuffle results must not be discarded")
-		r128i shuffleHigh16(r128i v, int imm) {
+		r128i shuffleHigh16(r128i v) {
 		return _mm_shufflehi_epi16(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shuffle results must not be discarded")
-		r128i shuffleLow16(r128i v, int imm) {
+		r128i shuffleLow16(r128i v) {
 		return _mm_shufflelo_epi16(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shuffle results must not be discarded")
-		r128i shuffle32(r128i v, int imm) {
+		r128i shuffle32(r128i v) {
 		return _mm_shuffle_epi32(v, imm);
 	}
 
@@ -1202,21 +1214,24 @@ namespace Leibniz::Vectorization::Intrinsic::v128 {
 		return _mm_unpackhi_pd(a, b);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector blend results must not be discarded")
-		r128i blend16(r128i a, r128i b, int imm) {
+		r128i blend16(r128i a, r128i b) {
 		return _mm_blend_epi16(a, b, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector blend results must not be discarded")
-		r128f32 blend(r128f32 a, r128f32 b, int imm) {
+		r128f32 blend(r128f32 a, r128f32 b) {
 		return _mm_blend_ps(a, b, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector blend results must not be discarded")
-		r128f64 blend(r128f64 a, r128f64 b, int imm) {
+		r128f64 blend(r128f64 a, r128f64 b) {
 		return _mm_blend_pd(a, b, imm);
 	}
 
@@ -1238,69 +1253,80 @@ namespace Leibniz::Vectorization::Intrinsic::v128 {
 		return _mm_blendv_pd(a, b, mask);
 	}
 
+	template<int index>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector insert results must not be discarded")
-		r128i insert16(r128i v, int value, int index) {
+		r128i insert16(r128i v, int value) {
 		return _mm_insert_epi16(v, value, index);
 	}
 
+	template<int index>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector insert results must not be discarded")
-		r128i insert8(r128i v, int value, int index) {
+		r128i insert8(r128i v, int value) {
 		return _mm_insert_epi8(v, value, index);
 	}
 
+	template<int index>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector insert results must not be discarded")
-		r128i insert32(r128i v, int value, int index) {
+		r128i insert32(r128i v, int value) {
 		return _mm_insert_epi32(v, value, index);
 	}
 
+	template<int index>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector insert results must not be discarded")
-		r128i insert64(r128i v, long long value, int index) {
+		r128i insert64(r128i v, long long value) {
 		return _mm_insert_epi64(v, value, index);
 	}
 
+	template<int index>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector extract results must not be discarded")
-		int extract16(r128i v, int index) {
+		int extract16(r128i v) {
 		return _mm_extract_epi16(v, index);
 	}
 
+	template<int index>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector extract results must not be discarded")
-		int extract8(r128i v, int index) {
+		int extract8(r128i v) {
 		return _mm_extract_epi8(v, index);
 	}
 
+	template<int index>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector extract results must not be discarded")
-		int extract32(r128i v, int index) {
+		int extract32(r128i v) {
 		return _mm_extract_epi32(v, index);
 	}
 
+	template<int index>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector extract results must not be discarded")
-		long long extract64(r128i v, int index) {
+		long long extract64(r128i v) {
 		return _mm_extract_epi64(v, index);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector insert results must not be discarded")
-		r128f32 insert(r128f32 v, r128f32 value, int imm) {
+		r128f32 insert(r128f32 v, r128f32 value) {
 		return _mm_insert_ps(v, value, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector extract results must not be discarded")
-		int extract(r128f32 v, int imm) {
+		int extract(r128f32 v) {
 		return _mm_extract_ps(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector alignment results must not be discarded")
-		r128i alignRight(r128i a, r128i b, int imm) {
+		r128i alignRight(r128i a, r128i b) {
 		return _mm_alignr_epi8(a, b, imm);
 	}
 
@@ -1360,15 +1386,17 @@ namespace Leibniz::Vectorization::Intrinsic::v128 {
 		return _mm_hadds_epi16(a, b);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector dot product results must not be discarded")
-		r128f32 dot(r128f32 a, r128f32 b, int imm) {
+		r128f32 dot(r128f32 a, r128f32 b) {
 		return _mm_dp_ps(a, b, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector dot product results must not be discarded")
-		r128f64 dot(r128f64 a, r128f64 b, int imm) {
+		r128f64 dot(r128f64 a, r128f64 b) {
 		return _mm_dp_pd(a, b, imm);
 	}
 
@@ -1456,27 +1484,31 @@ namespace Leibniz::Vectorization::Intrinsic::v128 {
 		return _mm_rcp_ss(v);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector rounding results must not be discarded")
-		r128f32 round(r128f32 v, int imm) {
+		r128f32 round(r128f32 v) {
 		return _mm_round_ps(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector rounding results must not be discarded")
-		r128f64 round(r128f64 v, int imm) {
+		r128f64 round(r128f64 v) {
 		return _mm_round_pd(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Scalar rounding results must not be discarded")
-		r128f32 roundScalar(r128f32 v, int imm) {
+		r128f32 roundScalar(r128f32 v) {
 		return _mm_round_ss(v, v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Scalar rounding results must not be discarded")
-		r128f64 roundScalar(r128f64 v, int imm) {
+		r128f64 roundScalar(r128f64 v) {
 		return _mm_round_sd(v, v, imm);
 	}
 

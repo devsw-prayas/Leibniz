@@ -1,4 +1,5 @@
 #pragma once
+
 #include <Leibniz.h>
 #define ALLOW_VECTOR_INTRIN_128
 #include <v128Intrin.h>
@@ -740,15 +741,17 @@ namespace Leibniz::Vectorization::Intrinsic::v256 {
 		LEIBNIZ_NODISCARD_MSG("Vector arithmetic results must not be discarded")
 		r256i maxUnsigned32(r256i a, r256i b) { return _mm256_max_epu32(a, b); }
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector comparison results must not be discarded")
-		r256fp32 cmp(r256fp32 a, r256fp32 b, int imm) {
+		r256fp32 cmp(r256fp32 a, r256fp32 b) {
 		return _mm256_cmp_ps(a, b, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector comparison results must not be discarded")
-		r256fp64 cmp(r256fp64 a, r256fp64 b, int imm) {
+		r256fp64 cmp(r256fp64 a, r256fp64 b) {
 		return _mm256_cmp_pd(a, b, imm);
 	}
 
@@ -791,15 +794,17 @@ namespace Leibniz::Vectorization::Intrinsic::v256 {
 	// AVX2 SSE
 	// legacy SSE compare (kept for uniform API surface)
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector comparison results must not be discarded")
-		r128f32 cmp(r128f32 a, r128f32 b, int imm) {
+		r128f32 cmp(r128f32 a, r128f32 b) {
 		return _mm_cmp_ps(a, b, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector comparison results must not be discarded")
-		r128f64 cmp(r128f64 a, r128f64 b, int imm) {
+		r128f64 cmp(r128f64 a, r128f64 b) {
 		return _mm_cmp_pd(a, b, imm);
 	}
 
@@ -955,55 +960,63 @@ namespace Leibniz::Vectorization::Intrinsic::v256 {
 
 	// logical left
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r256i shiftLeft16(r256i v, int imm) {
+		r256i shiftLeft16(r256i v) {
 		return _mm256_slli_epi16(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r256i shiftLeft32(r256i v, int imm) {
+		r256i shiftLeft32(r256i v) {
 		return _mm256_slli_epi32(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r256i shiftLeft64(r256i v, int imm) {
+		r256i shiftLeft64(r256i v) {
 		return _mm256_slli_epi64(v, imm);
 	}
 
 	// logical right
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r256i shiftRightLogical16(r256i v, int imm) {
+		r256i shiftRightLogical16(r256i v) {
 		return _mm256_srli_epi16(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r256i shiftRightLogical32(r256i v, int imm) {
+		r256i shiftRightLogical32(r256i v) {
 		return _mm256_srli_epi32(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r256i shiftRightLogical64(r256i v, int imm) {
+		r256i shiftRightLogical64(r256i v) {
 		return _mm256_srli_epi64(v, imm);
 	}
 
 	// arithmetic right
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r256i shiftRightArithmetic16(r256i v, int imm) {
+		r256i shiftRightArithmetic16(r256i v) {
 		return _mm256_srai_epi16(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shift results must not be discarded")
-		r256i shiftRightArithmetic32(r256i v, int imm) {
+		r256i shiftRightArithmetic32(r256i v) {
 		return _mm256_srai_epi32(v, imm);
 	}
 
@@ -1131,33 +1144,38 @@ namespace Leibniz::Vectorization::Intrinsic::v256 {
 		return _mm256_srav_epi64(v, count);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shuffle results must not be discarded")
-		r256fp32 shuffle(r256fp32 a, r256fp32 b, int imm) {
+		r256fp32 shuffle(r256fp32 a, r256fp32 b) {
 		return _mm256_shuffle_ps(a, b, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shuffle results must not be discarded")
-		r256fp64 shuffle(r256fp64 a, r256fp64 b, int imm) {
+		r256fp64 shuffle(r256fp64 a, r256fp64 b) {
 		return _mm256_shuffle_pd(a, b, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shuffle results must not be discarded")
-		r256i shuffle32(r256i v, int imm) {
+		r256i shuffle32(r256i v) {
 		return _mm256_shuffle_epi32(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shuffle results must not be discarded")
-		r256i shuffleHigh16(r256i v, int imm) {
+		r256i shuffleHigh16(r256i v) {
 		return _mm256_shufflehi_epi16(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector shuffle results must not be discarded")
-		r256i shuffleLow16(r256i v, int imm) {
+		r256i shuffleLow16(r256i v) {
 		return _mm256_shufflelo_epi16(v, imm);
 	}
 
@@ -1221,27 +1239,31 @@ namespace Leibniz::Vectorization::Intrinsic::v256 {
 		LEIBNIZ_NODISCARD_MSG("Vector unpack results must not be discarded")
 		r256fp64 unpackHigh(r256fp64 a, r256fp64 b) { return _mm256_unpackhi_pd(a, b); }
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector blend results must not be discarded")
-		r256i blend16(r256i a, r256i b, int imm) {
+		r256i blend16(r256i a, r256i b) {
 		return _mm256_blend_epi16(a, b, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector blend results must not be discarded")
-		r256i blend32(r256i a, r256i b, int imm) {
+		r256i blend32(r256i a, r256i b) {
 		return _mm256_blend_epi32(a, b, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector blend results must not be discarded")
-		r256fp32 blend(r256fp32 a, r256fp32 b, int imm) {
+		r256fp32 blend(r256fp32 a, r256fp32 b) {
 		return _mm256_blend_ps(a, b, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector blend results must not be discarded")
-		r256fp64 blend(r256fp64 a, r256fp64 b, int imm) {
+		r256fp64 blend(r256fp64 a, r256fp64 b) {
 		return _mm256_blend_pd(a, b, imm);
 	}
 
@@ -1303,117 +1325,135 @@ namespace Leibniz::Vectorization::Intrinsic::v256 {
 
 	// immediate permutes
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector permute results must not be discarded")
-		r128f32 permute(r128f32 v, int imm) {
+		r128f32 permute(r128f32 v) {
 		return _mm_permute_ps(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector permute results must not be discarded")
-		r128f64 permute(r128f64 v, int imm) {
+		r128f64 permute(r128f64 v) {
 		return _mm_permute_pd(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector permute results must not be discarded")
-		r256fp32 permute(r256fp32 v, int imm) {
+		r256fp32 permute(r256fp32 v) {
 		return _mm256_permute_ps(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector permute results must not be discarded")
-		r256fp64 permute(r256fp64 v, int imm) {
+		r256fp64 permute(r256fp64 v) {
 		return _mm256_permute_pd(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector lane permute results must not be discarded")
-		r256fp32 permute2x128(r256fp32 a, r256fp32 b, int imm) {
+		r256fp32 permute2x128(r256fp32 a, r256fp32 b) {
 		return _mm256_permute2f128_ps(a, b, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector lane permute results must not be discarded")
-		r256fp64 permute2x128(r256fp64 a, r256fp64 b, int imm) {
+		r256fp64 permute2x128(r256fp64 a, r256fp64 b) {
 		return _mm256_permute2f128_pd(a, b, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector lane permute results must not be discarded")
-		r256i permute2x128(r256i a, r256i b, int imm) {
+		r256i permute2x128(r256i a, r256i b) {
 		return _mm256_permute2f128_si256(a, b, imm);
 	}
-
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector lane permute results must not be discarded")
-		r256i permute4x64(r256i v, int imm) {
+		r256i permute4x64(r256i v) {
 		return _mm256_permute4x64_epi64(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector lane permute results must not be discarded")
-		r256fp64 permute4x64(r256fp64 v, int imm) {
+		r256fp64 permute4x64(r256fp64 v) {
 		return _mm256_permute4x64_pd(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector lane permute results must not be discarded")
-		r256i permute2x128(r256i v, int imm) {
+		r256i permute2x128(r256i v) {
 		return _mm256_permute2x128_si256(v, v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector lane insertion results must not be discarded")
-		r256fp32 insert128(r256fp32 v, r128f32 lane, int imm) {
+		r256fp32 insert128(r256fp32 v, r128f32 lane) {
 		return _mm256_insertf128_ps(v, lane, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector lane insertion results must not be discarded")
-		r256fp64 insert128(r256fp64 v, r128f64 lane, int imm) {
+		r256fp64 insert128(r256fp64 v, r128f64 lane) {
 		return _mm256_insertf128_pd(v, lane, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector lane insertion results must not be discarded")
-		r256i insert128(r256i v, r128i lane, int imm) {
+		r256i insert128(r256i v, r128i lane) {
 		return _mm256_insertf128_si256(v, lane, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector lane extraction results must not be discarded")
-		r128f32 extract128(r256fp32 v, int imm) {
+		r128f32 extract128(r256fp32 v) {
 		return _mm256_extractf128_ps(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector lane extraction results must not be discarded")
-		r128f64 extract128(r256fp64 v, int imm) {
+		r128f64 extract128(r256fp64 v) {
 		return _mm256_extractf128_pd(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector lane extraction results must not be discarded")
-		r128i extract128(r256i v, int imm) {
+		r128i extract128(r256i v) {
 		return _mm256_extractf128_si256(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector lane insertion results must not be discarded")
-		r256i insertI128(r256i v, r128i lane, int imm) {
+		r256i insertI128(r256i v, r128i lane) {
 		return _mm256_inserti128_si256(v, lane, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector lane extraction results must not be discarded")
-		r128i extractI128(r256i v, int imm) {
+		r128i extractI128(r256i v) {
 		return _mm256_extracti128_si256(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector alignment results must not be discarded")
-		r256i alignRightBytes(r256i a, r256i b, int imm) {
+		r256i alignRightBytes(r256i a, r256i b) {
 		return _mm256_alignr_epi8(a, b, imm);
 	}
 
@@ -1483,9 +1523,10 @@ namespace Leibniz::Vectorization::Intrinsic::v256 {
 		return _mm256_sad_epu8(a, b);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector horizontal results must not be discarded")
-		r256i mpsadBW(r256i a, r256i b, int imm) {
+		r256i mpsadBW(r256i a, r256i b) {
 		return _mm256_mpsadbw_epu8(a, b, imm);
 	}
 
@@ -1549,15 +1590,17 @@ namespace Leibniz::Vectorization::Intrinsic::v256 {
 		return _mm256_rcp_ps(v);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector rounding results must not be discarded")
-		r256fp32 round(r256fp32 v, int imm) {
+		r256fp32 round(r256fp32 v) {
 		return _mm256_round_ps(v, imm);
 	}
 
+	template<int imm>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector rounding results must not be discarded")
-		r256fp64 round(r256fp64 v, int imm) {
+		r256fp64 round(r256fp64 v) {
 		return _mm256_round_pd(v, imm);
 	}
 
@@ -1803,29 +1846,33 @@ namespace Leibniz::Vectorization::Intrinsic::v256 {
 
 	// NOTE: scale is in bytes and must be 1, 2, 4, or 8
 
+	template<int scale>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector gather results must not be discarded")
-		r128f32 gatherFp32(const float* base, r128i idx, int scale) {
+		r128f32 gatherFp32(const float* base, r128i idx) {
 		return _mm_i32gather_ps(base, idx, scale);
 	}
 
+	template<int scale>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector gather results must not be discarded")
-		r256fp32 gatherFp32(const float* base, r256i idx, int scale) {
+		r256fp32 gatherFp32(const float* base, r256i idx) {
 		return _mm256_i32gather_ps(base, idx, scale);
 	}
 
+	template<int scale>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector gather results must not be discarded")
-		r256fp64 gatherFp64(const double* base, r128i idx, int scale) {
+		r256fp64 gatherFp64(const double* base, r128i idx) {
 		return _mm256_i32gather_pd(base, idx, scale);
 	}
 
 	// masked example (pattern repeats)
 
+	template<int scale>
 	LEIBNIZ_FORCEINLINE
 		LEIBNIZ_NODISCARD_MSG("Vector gather results must not be discarded")
-		r256fp32 gatherMasked(const float* base, r256i idx, r256fp32 mask, int scale) {
+		r256fp32 gatherMasked(const float* base, r256i idx, r256fp32 mask) {
 		return _mm256_mask_i32gather_ps(
 			_mm256_setzero_ps(), base, idx, mask, scale
 		);

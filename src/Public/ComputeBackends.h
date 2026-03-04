@@ -25,15 +25,13 @@
 #include "BackendUtils.h"
 
 namespace Leibniz::Numbers::Backend {
-	
-	template<typename T> requires HasContext<T>&& SupportedBackendImplementation<T>
+	template<typename T> 
 	class LEIBNIZ_RUNTIME_API IComputeBackend {
 		using derived_ = T;
 		using context_ = ProvideContextLoader<derived_>::type_;
-		LEIBNIZ_STATIC_ASSERT(std::is_base_of_v<IComputeBackend<T>, T>, "Invalid Implementation, Subclass must extend IComputeBackend");
 	public:
 		IComputeBackend() = delete;
-		~IComputeBackend() = delete;
+		~IComputeBackend() = delete; 
 
 		IComputeBackend(const IComputeBackend&) = delete;
 		IComputeBackend& operator=(const IComputeBackend&) = delete;
@@ -42,7 +40,7 @@ namespace Leibniz::Numbers::Backend {
 		IComputeBackend& operator=(IComputeBackend&&) noexcept = delete;
 
 		// Guarantees that the implementation will always construct a full width multi-limb zero if fixed precision
-		// or will use a single zero limb if the precision is arbitrary 
+		// or will use a single zero limb if the precision is arbitrary
 		static void zero(context_& ro_Out) {
 			derived_::zeroImpl(ro_Out);
 		}
@@ -65,7 +63,7 @@ namespace Leibniz::Numbers::Backend {
 			return derived_::addImpl(ro_Out, ro_OpA, ro_OpB);
 		}
 
-		// Guarantees that the implementation will perform a limb based subtraction operation with full borrow 
+		// Guarantees that the implementation will perform a limb based subtraction operation with full borrow
 		// It is necessary that output context be provided and the borrow-in should not be discarded.
 		static bool LEIBNIZ_NODISCARD_MSG("Cannot discard final borrow") sub(context_& ro_Out, const context_& ro_OpA, const context_& ro_OpB) {
 			return derived_::subImpl(ro_Out, ro_OpA, ro_OpB);
@@ -75,33 +73,27 @@ namespace Leibniz::Numbers::Backend {
 		// The output context must be pre-sized to hold the full result domain (e.g., 2n limbs for n-limb operands in arbitrary precision).
 		// No allocation or growth is performed inside the backend.
 		static void mul(context_& ro_Out, const context_& ro_OpA, const context_& ro_OpB) {
-			return derived_::mulImpl(ro_Out, ro_OpA, ro_OpB);
+			derived_::mulImpl(ro_Out, ro_OpA, ro_OpB);
 		}
 
 		// Guarantees that the implementation will perform an unsigned integer division producing both quotient and remainder.
 		// The quotient and remainder contexts must be pre-sized appropriately by the frontend. No resizing or allocation is performed internally.
 		// Behavior is undefined if divisor represents zero.
 		static void div(context_& ro_Quo, context_& ro_Rem, const context_& ro_OpA, const context_& ro_OpB) {
-			return derived_::divImpl(ro_Quo, ro_Rem, ro_OpA, ro_OpB);
-		}
-
-		// Guarantees that the implementation will multiply the operand by a single limb value and store the full-width result in the output context.
-		// The output context must be correctly sized before invocation. Returns the final carry-out limb which must not be discarded.
-		static bool LEIBNIZ_NODISCARD_MSG("Cannot discard mul carry") mulLimb(context_& ro_Out, const context_& ro_OpA, uint64_t v_Limb) {
-			return derived_::mulLimbImpl(ro_Out, ro_OpA, v_Limb);
+			derived_::divImpl(ro_Quo, ro_Rem, ro_OpA, ro_OpB);
 		}
 
 		// Guarantees that the implementation will perform a logical left shift by the specified bit count across the full limb domain.
 		// The output context must be pre-sized. Returns the high carry-out bit (or limb overflow indicator).
 		// Mo growth or canonicalization is performed.
-		static bool LEIBNIZ_NODISCARD_MSG("Message") shiftLeft(context_& ro_Out, const context_& ro_Op, size_t v_Bits) {
+		static bool LEIBNIZ_NODISCARD_MSG("Cannot discard shift state") shiftLeft(context_& ro_Out, const context_& ro_Op, size_t v_Bits) {
 			return derived_::shiftLeftImpl(ro_Out, ro_Op, v_Bits);
 		}
 
 		// Guarantees that the implementation will perform a logical right shift by the specified bit count across the full limb domain.
 		// The output context must be pre-sized. Returns an indicator representing whether any non-zero bits were shifted out.
 		// No normalization or trimming is performed internally.
-		static bool LEIBNIZ_NODISCARD_MSG("Message") shiftRight(context_& ro_Out, const context_& ro_Op, size_t v_Bits) {
+		static bool LEIBNIZ_NODISCARD_MSG("Cannot discard shift state") shiftRight(context_& ro_Out, const context_& ro_Op, size_t v_Bits) {
 			return derived_::shiftRightImpl(ro_Out, ro_Op, v_Bits);
 		}
 

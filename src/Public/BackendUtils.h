@@ -1,6 +1,8 @@
 #pragma once
 #include "LebnizDiagnostics.h"
 #include "NumericTraits.h"
+#include "v256Intrin.h"
+#include "VectorNumericTraits.h"
 
 namespace Leibniz::Numbers::Backend {
 	// IEEE 754 - 2019 extended rounding mode for operations where a terminating representation
@@ -37,12 +39,8 @@ namespace Leibniz::Numbers::Backend {
 	template<typename D, typename L, Width V>
 	struct ILimbContext {
 		LEIBNIZ_STATIC_ASSERT(!Traits::IsArbitraryWidthV<L>, "Limb type must a fixed width type");
-		LEIBNIZ_STATIC_ASSERT(Traits::IsIntV<L>, "Limb type must be an integer type");
-		LEIBNIZ_STATIC_ASSERT(!Traits::IsSignedIntV<L>, "Limb cannot be signed integer type");
-
-		LEIBNIZ_STATIC_ASSERT(std::is_standard_layout_v<D>, "The derived implementation must of a standard layout");
-		LEIBNIZ_STATIC_ASSERT(std::is_trivially_copyable_v<D>, "The derived implementation must be trivially copyable");
-		LEIBNIZ_STATIC_ASSERT(std::is_trivially_move_assignable_v<D>, "The derived implementation must be trivially assignable");
+		LEIBNIZ_STATIC_ASSERT(Traits::IsIntV<L> || Vectorized::Traits::IsVectorizedIntV<L>, "Limb type must be an integer type");
+		LEIBNIZ_STATIC_ASSERT(!Traits::IsSignedIntV<L> || Vectorized::Traits::IsSignedVectorIntV<L>, "Limb cannot be signed integer type");
 
 		using limbT_ = L;
 		using derived_ = D;
@@ -57,8 +55,6 @@ namespace Leibniz::Numbers::Backend {
 		ILimbContext& operator=(const ILimbContext&) = default;
 		ILimbContext(ILimbContext&&) noexcept = default;
 		ILimbContext& operator=(ILimbContext&&) noexcept = default;
-
-		using DoubleWidth = typename derived_::DoubleWidth;
 
 		LEIBNIZ_MAYBE_UNUSED constexpr limbT_* data() noexcept {
 			return static_cast<derived_*>(this)->dataImpl();
@@ -87,11 +83,11 @@ namespace Leibniz::Numbers::Backend {
 	concept HasContext = !std::is_same_v<typename ProvideContextLoader<T>::type_, InvalidContext>;
 
 	template<typename T>
-	concept SupportedBackendImplementation = requires (
-		typename ProvideContextLoader<T>::type_ ctx,
-		const typename ProvideContextLoader<T>::type_ cCtx) {
+	concept SupportedBackendImplementation = HasContext<T> && requires (
+		typename ProvideContextLoader<T>::type_& ctx,
+		const typename ProvideContextLoader<T>::type_& cCtx) {
 			{ T::zeroImpl(ctx) };
-			{ T::copyImp(ctx, cCtx) };
+			{ T::copyImpl(ctx, cCtx) };
 			{ T::compareImpl(cCtx, cCtx) } -> std::same_as<int>;
 			{ T::addImpl(ctx, cCtx, cCtx) } -> std::same_as<bool>;
 			{ T::subImpl(ctx, cCtx, cCtx) } -> std::same_as<bool>;
@@ -99,7 +95,6 @@ namespace Leibniz::Numbers::Backend {
 			{ T::divImpl(ctx, ctx, cCtx, cCtx) };
 			{ T::bitWidthImpl(cCtx) } -> std::same_as<size_t>;
 			{ T::isZeroImpl(cCtx) } -> std::same_as<bool>;
-			{ T::mulLimbImpl(ctx, cCtx, uint64_t{}) } -> std::same_as<bool>;
 			{ T::shiftLeftImpl(ctx, cCtx, size_t{}) } -> std::same_as<bool>;
 			{ T::shiftRightImpl(ctx, cCtx, size_t{}) } -> std::same_as<bool>;
 			{ T::squareImpl(ctx, cCtx) };

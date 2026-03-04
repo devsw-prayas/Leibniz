@@ -3,6 +3,7 @@
 #include "VectorizationTraits.h"
 #include "LeibnizInt.h"
 #include "LeibnizFloat.h"
+#include "VectorNumericTraits.h"
 
 namespace Leibniz::Vectorization::v256 {
 	// All the Stripe Forms for Integer Stripes
@@ -14,7 +15,7 @@ namespace Leibniz::Vectorization::v256 {
 	struct LEIBNIZ_RUNTIME_API alignas(32) StripeU8 final {
 		Reg256i m_VectorBin;
 
-		StripeU8() = delete;
+		StripeU8();
 		explicit StripeU8(Reg256i v_Raw) noexcept : m_VectorBin(v_Raw) {}
 
 		StripeU8(const StripeU8&) = default;
@@ -27,7 +28,7 @@ namespace Leibniz::Vectorization::v256 {
 	struct LEIBNIZ_RUNTIME_API alignas(32) StripeU16 final {
 		Reg256i m_VectorBin;
 
-		StripeU16() = delete;
+		StripeU16();
 		explicit StripeU16(Reg256i v_Raw) noexcept : m_VectorBin(v_Raw) {}
 
 		StripeU16(const StripeU16&) = default;
@@ -40,7 +41,7 @@ namespace Leibniz::Vectorization::v256 {
 	struct LEIBNIZ_RUNTIME_API alignas(32) StripeU32 final {
 		Reg256i m_VectorBin;
 
-		StripeU32() = delete;
+		StripeU32();
 		explicit StripeU32(Reg256i v_Raw) noexcept : m_VectorBin(v_Raw) {}
 
 		StripeU32(const StripeU32&) = default;
@@ -53,7 +54,7 @@ namespace Leibniz::Vectorization::v256 {
 	struct LEIBNIZ_RUNTIME_API alignas(32) StripeU64 final {
 		Reg256i m_VectorBin;
 
-		StripeU64() = delete;
+		StripeU64();
 		explicit StripeU64(Reg256i v_Raw) noexcept : m_VectorBin(v_Raw) {}
 
 		StripeU64(const StripeU64&) = default;
@@ -66,7 +67,7 @@ namespace Leibniz::Vectorization::v256 {
 	struct LEIBNIZ_RUNTIME_API alignas(32) Stripe8 final {
 		Reg256i m_VectorBin;
 
-		Stripe8() = delete;
+		Stripe8();
 		explicit Stripe8(Reg256i v_Raw) noexcept : m_VectorBin(v_Raw) {}
 
 		Stripe8(const Stripe8&) = default;
@@ -79,7 +80,7 @@ namespace Leibniz::Vectorization::v256 {
 	struct LEIBNIZ_RUNTIME_API alignas(32) Stripe16 final {
 		Reg256i m_VectorBin;
 
-		Stripe16() = delete;
+		Stripe16();
 		explicit Stripe16(Reg256i v_Raw) noexcept : m_VectorBin(v_Raw) {}
 
 		Stripe16(const Stripe16&) = default;
@@ -92,7 +93,7 @@ namespace Leibniz::Vectorization::v256 {
 	struct LEIBNIZ_RUNTIME_API alignas(32) Stripe32 final {
 		Reg256i m_VectorBin;
 
-		Stripe32() = delete;
+		Stripe32();
 		explicit Stripe32(Reg256i v_Raw) noexcept : m_VectorBin(v_Raw) {}
 
 		Stripe32(const Stripe32&) = default;
@@ -105,7 +106,7 @@ namespace Leibniz::Vectorization::v256 {
 	struct LEIBNIZ_RUNTIME_API alignas(32) Stripe64 final {
 		Reg256i m_VectorBin;
 
-		Stripe64() = delete;
+		Stripe64();
 		explicit Stripe64(Reg256i v_Raw) noexcept : m_VectorBin(v_Raw) {}
 
 		Stripe64(const Stripe64&) = default;
@@ -120,7 +121,7 @@ namespace Leibniz::Vectorization::v256 {
 	struct LEIBNIZ_RUNTIME_API alignas(32) StripeFP32 final {
 		RegFP256 m_VectorBin;
 
-		StripeFP32() = delete;
+		StripeFP32();
 		explicit StripeFP32(RegFP256 v_Raw) noexcept : m_VectorBin(v_Raw) {}
 
 		StripeFP32(const StripeFP32&) = default;
@@ -133,7 +134,7 @@ namespace Leibniz::Vectorization::v256 {
 	struct LEIBNIZ_RUNTIME_API alignas(32) StripeFP64 final {
 		RegD256 m_VectorBin;
 
-		StripeFP64() = delete;
+		StripeFP64();
 		explicit StripeFP64(RegD256 v_Raw) noexcept : m_VectorBin(v_Raw) {}
 
 		StripeFP64(const StripeFP64&) = default;
@@ -407,5 +408,50 @@ namespace Leibniz::Vectorization::Traits {
 	struct ScalarType<v256::StripeFP64> {
 		using type = Numerics::Float64;
 	};
+}
+
+namespace Leibniz::Vectorized::Traits {
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::Stripe8> : std::true_type {};
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::Stripe16> : std::true_type {};
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::Stripe32> : std::true_type {};
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::Stripe64> : std::true_type{};
+
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::StripeU8> : std::true_type {};
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::StripeU16> : std::true_type {};
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::StripeU32> : std::true_type {};
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::StripeU64> : std::true_type {};
+
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsSignedVectorInt<Vectorization::v256::Stripe8> : std::true_type {};
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsSignedVectorInt<Vectorization::v256::Stripe16> : std::true_type {};
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsSignedVectorInt<Vectorization::v256::Stripe32> : std::true_type {};
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsSignedVectorInt<Vectorization::v256::Stripe64> : std::true_type {};
+
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsUnsignedVectorInt<Vectorization::v256::StripeU8> : std::true_type {};
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsUnsignedVectorInt<Vectorization::v256::StripeU16> : std::true_type {};
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsUnsignedVectorInt<Vectorization::v256::StripeU32> : std::true_type {};
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsUnsignedVectorInt<Vectorization::v256::StripeU64> : std::true_type {};
+
+
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsVectorizedFloat<Vectorization::v256::StripeFP32> : std::true_type{};
+	template<>
+	struct LEIBNIZ_RUNTIME_API IsVectorizedFloat<Vectorization::v256::StripeFP64> : std::true_type{};
+
 }
 

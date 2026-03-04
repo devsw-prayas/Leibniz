@@ -25,5 +25,5 @@ target_compile_options(Leibniz PRIVATE
 )
 
 target_compile_definitions(Leibniz PRIVATE        
-        LEIBNIZ_SHARED,
+        LEIBNIZ_SHARED
         LEIBNIZ_BUILDING_RUNTIME)
