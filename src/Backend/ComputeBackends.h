@@ -113,7 +113,8 @@ namespace Leibniz::Numbers::Backend {
 		// Guarantees that the implementation will compute the full-width square of the operand and store the result in the output context.
 		// The output context must be pre-sized appropriately. This operation may use specialized squaring optimizations
 		// distinct from generic multiplication.
-		static void square(context_& ro_Out, const context_& ro_Op) {
+		template<typename D>
+		static void square(D& ro_Out, const context_& ro_Op) {
 			derived_::squareImpl(ro_Out, ro_Op);
 		}
 

@@ -428,12 +428,12 @@ namespace Leibniz::Utils::Unrolled {
 				u_Func(inner); }); });
 	}
 
-	template<size_t Count, typename FnA, typename FnB>
-	constexpr void staticInterleave(FnA&& a, FnB&& b) {
-		staticFor<0, Count>([&](auto i) {
-			a(i);
-			b(i); });
-	}
+		template<size_t Count, typename FnA, typename FnB>
+		constexpr void staticInterleave(FnA&& a, FnB&& b) {
+			staticFor<0, Count>([&](auto i) {
+				a(i);
+				b(i); });
+		}
 
 	template<size_t Begin, size_t End, typename Fn>
 	constexpr void staticDependencyChain(Fn&& u_Func) {

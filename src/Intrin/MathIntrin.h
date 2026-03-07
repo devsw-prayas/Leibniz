@@ -1340,5 +1340,16 @@ namespace Leibniz::Intrinsic {
 #endif
 #endif
 
+
+#ifndef Clz64
+#if LEIBNIZ_COMPILER_MSVC
+#define Clz64(v) \
+    _lzcnt_u64(v)
+#elif LEIBNIZ_COMPILER_CLANG || LEIBNIZ_COMPILER_GCC            \
+	__builtin_clzll(v)
+#else 
+#error  "Unsupported Compiler for Clz64"
+#endif
+#endif
 }
 
