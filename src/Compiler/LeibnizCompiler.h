@@ -14,6 +14,7 @@
 #define LEIBNIZ_SIMD_SCALAR 1
 #endif
 
+namespace Leibniz {
 #if defined(_MSC_VER)
 #define LEIBNIZ_COMPILER_MSVC 1
 #else
@@ -31,6 +32,7 @@
 #else
 #define LEIBNIZ_COMPILER_GCC 0
 #endif
+}
 
 #if LEIBNIZ_COMPILER_MSVC
 #define LEIBNIZ_FORCEINLINE __forceinline
@@ -44,6 +46,25 @@
 #endif
 
 #define LEIBNIZ_INLINE inline
+
+#if LEIBNIZ_COMPILER_MSVC
+#define LEIBNIZ_COMPILER_BARRIER() _ReadWriteBarrier()
+#elif LEIBNIZ_COMPILER_CLANG || LEIBNIZ_COMPILER_GCC
+#define LEIBNIZ_COMPILER_BARRIER() asm volatile("" ::: "memory")
+#else
+#define LEIBNIZ_COMPILER_BARRIER()
+#endif
+
+#if LEIBNIZ_COMPILER_MSVC
+#define LEIBNIZ_OPTIMIZE_OFF __pragma(optimize("", off))
+#define LEIBNIZ_OPTIMIZE_ON  __pragma(optimize("", on))
+#elif LEIBNIZ_COMPILER_CLANG || LEIBNIZ_COMPILER_GCC
+#define LEIBNIZ_OPTIMIZE_OFF _Pragma("clang optimize off")
+#define LEIBNIZ_OPTIMIZE_ON  _Pragma("clang optimize on")
+#else
+#define LEIBNIZ_OPTIMIZE_OFF
+#define LEIBNIZ_OPTIMIZE_ON
+#endif
 
 #if LEIBNIZ_COMPILER_CLANG || LEIBNIZ_COMPILER_GCC
 #define LEIBNIZ_LIKELY(x)   __builtin_expect(!!(x), 1)
@@ -71,6 +92,35 @@
 #define LEIBNIZ_UNREACHABLE() __builtin_unreachable()
 #else
 #define LEIBNIZ_UNREACHABLE() LEIBNIZ_TRAP()
+#endif
+
+#if LEIBNIZ_COMPILER_MSVC
+#define LEIBNIZ_PRAGMA(x) __pragma(x)
+#elif LEIBNIZ_COMPILER_CLANG || LEIBNIZ_COMPILER_GCC
+#define LEIBNIZ_PRAGMA(x) _Pragma(#x)
+#else
+#define LEIBNIZ_PRAGMA(x)
+#endif
+
+#define LEIBNIZ_DIAGNOSTIC_PUSH LEIBNIZ_PRAGMA(diagnostic push)
+#define LEIBNIZ_DIAGNOSTIC_POP  LEIBNIZ_PRAGMA(diagnostic pop)
+
+#if LEIBNIZ_COMPILER_MSVC
+#define LEIBNIZ_DISABLE_WARNING(w) LEIBNIZ_PRAGMA(warning(disable : w))
+#elif LEIBNIZ_COMPILER_CLANG || LEIBNIZ_COMPILER_GCC
+#define LEIBNIZ_DISABLE_WARNING(w) LEIBNIZ_PRAGMA(clang diagnostic ignored w)
+#else
+#define LEIBNIZ_DISABLE_WARNING(w)
+#endif
+
+#if defined(__has_cpp_attribute)
+#if __has_cpp_attribute(fallthrough)
+#define LEIBNIZ_FALLTHROUGH [[fallthrough]]
+#else
+#define LEIBNIZ_FALLTHROUGH
+#endif
+#else
+#define LEIBNIZ_FALLTHROUGH
 #endif
 
 #if defined(__has_cpp_attribute)
@@ -101,26 +151,6 @@
 #endif
 
 #if defined(__has_cpp_attribute)
-#if __has_cpp_attribute(fallthrough)
-#define LEIBNIZ_FALLTHROUGH [[fallthrough]]
-#else
-#define LEIBNIZ_FALLTHROUGH
-#endif
-#else
-#define LEIBNIZ_FALLTHROUGH
-#endif
-
-#if defined(__has_cpp_attribute)
-#if __has_cpp_attribute(noreturn)
-#define LEIBNIZ_NORETURN [[noreturn]]
-#else
-#define LEIBNIZ_NORETURN
-#endif
-#else
-#define LEIBNIZ_NORETURN
-#endif
-
-#if defined(__has_cpp_attribute)
 #if __has_cpp_attribute(deprecated)
 #define LEIBNIZ_DEPRECATED [[deprecated]]
 #define LEIBNIZ_DEPRECATED_MSG(msg) [[deprecated(msg)]]
@@ -133,10 +163,36 @@
 #define LEIBNIZ_DEPRECATED_MSG(msg)
 #endif
 
+#if defined(__has_cpp_attribute)
+#if __has_cpp_attribute(noreturn)
+#define LEIBNIZ_NORETURN [[noreturn]]
+#else
+#define LEIBNIZ_NORETURN
+#endif
+#else
+#define LEIBNIZ_NORETURN
+#endif
+
 #if LEIBNIZ_COMPILER_MSVC
 #define LEIBNIZ_RESTRICT __restrict
 #elif LEIBNIZ_COMPILER_CLANG || LEIBNIZ_COMPILER_GCC
 #define LEIBNIZ_RESTRICT __restrict__
 #else
 #define LEIBNIZ_RESTRICT
+#endif
+
+#define LEIBNIZ_ALIGNAS(n) alignas(n)
+
+#if LEIBNIZ_COMPILER_CLANG || LEIBNIZ_COMPILER_GCC
+#define LEIBNIZ_ASSUME_ALIGNED(ptr, n) __builtin_assume_aligned((ptr), (n))
+#else
+#define LEIBNIZ_ASSUME_ALIGNED(ptr, n) __assume(reinterpret_cast<uintptr_t>(ptr) % n == 0)
+#endif
+
+#if LEIBNIZ_COMPILER_CLANG || LEIBNIZ_COMPILER_GCC
+#define LEIBNIZ_HOT  __attribute__((hot))
+#define LEIBNIZ_COLD __attribute__((cold))
+#else
+#define LEIBNIZ_HOT
+#define LEIBNIZ_COLD
 #endif

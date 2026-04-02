@@ -3,8 +3,8 @@
 // A sexy ass header that focuses on compile time unrolling ;)
 
 namespace Leibniz::Utils::Unrolled {
-		template<size_t  Idx>
-		using IndexT = std::integral_constant<size_t, Idx>;
+	template<size_t  Idx>
+	using IndexT = std::integral_constant<size_t, Idx>;
 
 	template<bool Condition, typename TrueFn, typename FalseFn>
 	constexpr void staticIf(TrueFn&& u_Tfunc, FalseFn&& u_Ffunc) {
