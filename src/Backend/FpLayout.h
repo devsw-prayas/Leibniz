@@ -10,8 +10,8 @@ namespace Leibniz::Numbers::Fp {
 		LEIBNIZ_STATIC_ASSERT(Bytes == (signBit + exponent + mantissa), "Invalid format");
 	};
 
-	using ieeeQuadPrecision = FpFormat<128, 15, 12>;
+	using ieeeQuadPrecision = FpFormat<128, 15, 112>;
 	using leibnizOctaPrecision = FpFormat<256, 23, 232>;
-	using leibnizHalfRefWidthPrecision = uint64_t; // TODO Format	    512bit
-	using leibnizFullRefWidthPrecision = uint64_t; // TODO Format		1024bit
+	using leibnizHalfRefWidthPrecision = FpFormat<512, 32, 479>;
+	using leibnizFullRefWidthPrecision = FpFormat<1024, 32, 991>;
 }

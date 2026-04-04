@@ -209,6 +209,30 @@ namespace Leibniz::Vectorization::Intrinsic::v256 {
 		return _mm256_set1_epi64x(v);
 	}
 
+	LEIBNIZ_FORCEINLINE
+		LEIBNIZ_NODISCARD_MSG("Vector construction results must not be discarded")
+		r256i setOne(uint8_t v) {
+		return _mm256_set1_epi8(v);
+	}
+
+	LEIBNIZ_FORCEINLINE
+		LEIBNIZ_NODISCARD_MSG("Vector construction results must not be discarded")
+		r256i setOne(uint16_t v) {
+		return _mm256_set1_epi16(v);
+	}
+
+	LEIBNIZ_FORCEINLINE
+		LEIBNIZ_NODISCARD_MSG("Vector construction results must not be discarded")
+		r256i setOne(uint32_t v) {
+		return _mm256_set1_epi32(v);
+	}
+
+	LEIBNIZ_FORCEINLINE
+		LEIBNIZ_NODISCARD_MSG("Vector construction results must not be discarded")
+		r256i setOne(uint64_t v) {
+		return _mm256_set1_epi64x(v);
+	}
+
 	// reversed order (INTERNAL / DANGEROUS)
 
 	LEIBNIZ_FORCEINLINE

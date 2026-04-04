@@ -12,9 +12,11 @@ namespace Leibniz::Traits {
 	template<> struct IsFloat<Numerics::Float32> : std::true_type {};
 	template<> struct IsFinitePrecision<Numerics::Float32> : std::true_type {};
 	template<> struct IsApproximated<Numerics::Float32> : std::true_type {};
+	template<> struct IsCompilerType<Numerics::Float32> : std::true_type {};
 
 	template<> struct IsNumeric<Numerics::Float64> : std::true_type {};
 	template<> struct IsFloat<Numerics::Float64> : std::true_type {};
 	template<> struct IsFinitePrecision<Numerics::Float64> : std::true_type {};
 	template<> struct IsApproximated<Numerics::Float64> : std::true_type {};
+	template<> struct IsCompilerType<Numerics::Float64> : std::true_type {};
 }

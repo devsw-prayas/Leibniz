@@ -22,6 +22,7 @@ namespace Leibniz::Vectorization::msk256 {
 	struct LEIBNIZ_RUNTIME_API alignas(32) Mask4 final {
 		Mask256	m_VectorMask;
 		Mask4() noexcept : m_VectorMask(_mm256_setzero_si256()) {}
+
 		Mask4(const Mask4&) = default;
 		Mask4& operator=(const Mask4&) = default;
 

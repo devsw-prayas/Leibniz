@@ -4,6 +4,7 @@
 #include "LeibnizInt.h"
 #include "LeibnizFloat.h"
 #include "VectorNumericTraits.h"
+#include "NumericTraits.h"
 
 namespace Leibniz::Vectorization::v256 {
 	// All the Stripe Forms for Integer Stripes
@@ -197,27 +198,59 @@ namespace Leibniz::Vectorization::v256 {
 	static_assert(std::is_trivially_copyable_v<StripeFP64>, "StripeFP64 must be trivially copyable");
 }
 
+namespace Leibniz::Traits{
+	template<>
+	struct  IsCompilerType<Vectorization::v256::Stripe8> final : std::true_type {};
+
+	template<>
+	struct  IsCompilerType<Vectorization::v256::Stripe16> final : std::true_type {};
+
+	template<>
+	struct  IsCompilerType<Vectorization::v256::Stripe32> final : std::true_type {};
+
+	template<>
+	struct  IsCompilerType<Vectorization::v256::Stripe64> final : std::true_type {};
+
+	template<>
+	struct  IsCompilerType<Vectorization::v256::StripeU8> final : std::true_type {};
+
+	template<>
+	struct  IsCompilerType<Vectorization::v256::StripeU16> final : std::true_type {};
+
+	template<>
+	struct  IsCompilerType<Vectorization::v256::StripeU32> final : std::true_type {};
+
+	template<>
+	struct  IsCompilerType<Vectorization::v256::StripeU64> final : std::true_type {};
+
+	template<>
+	struct  IsCompilerType<Vectorization::v256::StripeFP32> final : std::true_type {};
+
+	template<>
+	struct  IsCompilerType<Vectorization::v256::StripeFP64> final : std::true_type {};
+}
+
 namespace Leibniz::Vectorization::Traits {
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorStripe<v256::Stripe8> final : std::true_type {};
+	struct  IsVectorStripe<v256::Stripe8> final : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorStripe<v256::Stripe16> final : std::true_type {};
+	struct  IsVectorStripe<v256::Stripe16> final : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorStripe<v256::Stripe32> final : std::true_type {};
+	struct  IsVectorStripe<v256::Stripe32> final : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorStripe<v256::Stripe64> final : std::true_type {};
+	struct  IsVectorStripe<v256::Stripe64> final : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorStripe<v256::StripeU8> final : std::true_type {};
+	struct  IsVectorStripe<v256::StripeU8> final : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorStripe<v256::StripeU16> final : std::true_type {};
+	struct  IsVectorStripe<v256::StripeU16> final : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorStripe<v256::StripeU32> final : std::true_type {};
+	struct  IsVectorStripe<v256::StripeU32> final : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorStripe<v256::StripeU64> final : std::true_type {};
+	struct  IsVectorStripe<v256::StripeU64> final : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorStripe<v256::StripeFP32> final : std::true_type {};
+	struct  IsVectorStripe<v256::StripeFP32> final : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorStripe<v256::StripeFP64> final : std::true_type {};
+	struct  IsVectorStripe<v256::StripeFP64> final : std::true_type {};
 
 	template<>
 	struct VectorizationIntrospect<v256::StripeU8> {
@@ -412,46 +445,43 @@ namespace Leibniz::Vectorization::Traits {
 
 namespace Leibniz::Vectorized::Traits {
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::Stripe8> : std::true_type {};
+	struct  IsVectorizedInt<Vectorization::v256::Stripe8> : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::Stripe16> : std::true_type {};
+	struct  IsVectorizedInt<Vectorization::v256::Stripe16> : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::Stripe32> : std::true_type {};
+	struct  IsVectorizedInt<Vectorization::v256::Stripe32> : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::Stripe64> : std::true_type{};
+	struct  IsVectorizedInt<Vectorization::v256::Stripe64> : std::true_type {};
 
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::StripeU8> : std::true_type {};
+	struct  IsVectorizedInt<Vectorization::v256::StripeU8> : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::StripeU16> : std::true_type {};
+	struct  IsVectorizedInt<Vectorization::v256::StripeU16> : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::StripeU32> : std::true_type {};
+	struct  IsVectorizedInt<Vectorization::v256::StripeU32> : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorizedInt<Vectorization::v256::StripeU64> : std::true_type {};
+	struct  IsVectorizedInt<Vectorization::v256::StripeU64> : std::true_type {};
 
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsSignedVectorInt<Vectorization::v256::Stripe8> : std::true_type {};
+	struct  IsSignedVectorInt<Vectorization::v256::Stripe8> : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsSignedVectorInt<Vectorization::v256::Stripe16> : std::true_type {};
+	struct  IsSignedVectorInt<Vectorization::v256::Stripe16> : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsSignedVectorInt<Vectorization::v256::Stripe32> : std::true_type {};
+	struct  IsSignedVectorInt<Vectorization::v256::Stripe32> : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsSignedVectorInt<Vectorization::v256::Stripe64> : std::true_type {};
+	struct  IsSignedVectorInt<Vectorization::v256::Stripe64> : std::true_type {};
 
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsUnsignedVectorInt<Vectorization::v256::StripeU8> : std::true_type {};
+	struct  IsUnsignedVectorInt<Vectorization::v256::StripeU8> : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsUnsignedVectorInt<Vectorization::v256::StripeU16> : std::true_type {};
+	struct  IsUnsignedVectorInt<Vectorization::v256::StripeU16> : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsUnsignedVectorInt<Vectorization::v256::StripeU32> : std::true_type {};
+	struct  IsUnsignedVectorInt<Vectorization::v256::StripeU32> : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsUnsignedVectorInt<Vectorization::v256::StripeU64> : std::true_type {};
+	struct  IsUnsignedVectorInt<Vectorization::v256::StripeU64> : std::true_type {};
 
-
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorizedFloat<Vectorization::v256::StripeFP32> : std::true_type{};
+	struct  IsVectorizedFloat<Vectorization::v256::StripeFP32> : std::true_type {};
 	template<>
-	struct LEIBNIZ_RUNTIME_API IsVectorizedFloat<Vectorization::v256::StripeFP64> : std::true_type{};
-
+	struct  IsVectorizedFloat<Vectorization::v256::StripeFP64> : std::true_type {};
 }
-
