@@ -10,6 +10,10 @@ namespace Leibniz::Numbers::Fp {
 		LEIBNIZ_STATIC_ASSERT(Bytes == (signBit + exponent + mantissa), "Invalid format");
 	};
 
+	using ieeeBrainPrecision = FpFormat<16, 8, 7>;
+	using ieeeHalfPrecision = FpFormat<16, 5, 10>;
+	using ieeeSinglePrecision = FpFormat<32, 8, 23>;
+	using ieeeDoublePrecision = FpFormat<64, 11, 52>;
 	using ieeeQuadPrecision = FpFormat<128, 15, 112>;
 	using leibnizOctaPrecision = FpFormat<256, 23, 232>;
 	using leibnizHalfRefWidthPrecision = FpFormat<512, 32, 479>;
