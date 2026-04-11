@@ -1,6 +1,10 @@
 #pragma once
+#include <bit>
+
 #include "LeibnizInt.h"
 #include "FpLayout.h"
+#include "LeibnizFloat.h"
+#include "VectorizationTraits.h"
 
 namespace Leibniz::Numerics::Support {
 	template<typename T>
@@ -80,4 +84,43 @@ namespace Leibniz::Numerics::Support {
 			return bits & FpMasking<T>::absMask();
 		}
 	};
+
+	template<typename T>
+	LEIBNIZ_FORCEINLINE constexpr T trueVal() noexcept {
+		LEIBNIZ_STATIC_ASSERT(Vectorization::Traits::TemplateFalseV<T>, "Unsupported ooperations");
+		LEIBNIZ_UNREACHABLE();
+	};
+
+	template<typename T>
+	LEIBNIZ_FORCEINLINE constexpr T falseVal() noexcept {
+		LEIBNIZ_STATIC_ASSERT(Vectorization::Traits::TemplateFalseV<T>, "Unsupported ooperations");
+		LEIBNIZ_UNREACHABLE();
+	}
+
+	// --- Integer specializations ---
+
+	template<> LEIBNIZ_FORCEINLINE constexpr Int32  trueVal<Int32>()  noexcept { return ~Int32(0); }
+	template<> LEIBNIZ_FORCEINLINE constexpr Int64  trueVal<Int64>()  noexcept { return ~Int64(0); }
+	template<> LEIBNIZ_FORCEINLINE constexpr UInt32 trueVal<UInt32>() noexcept { return ~UInt32(0); }
+	template<> LEIBNIZ_FORCEINLINE constexpr UInt64 trueVal<UInt64>() noexcept { return ~UInt64(0); }
+
+	template<> LEIBNIZ_FORCEINLINE constexpr Int32  falseVal<Int32>()  noexcept { return Int32(0); }
+	template<> LEIBNIZ_FORCEINLINE constexpr Int64  falseVal<Int64>()  noexcept { return Int64(0); }
+	template<> LEIBNIZ_FORCEINLINE constexpr UInt32 falseVal<UInt32>() noexcept { return UInt32(0); }
+	template<> LEIBNIZ_FORCEINLINE constexpr UInt64 falseVal<UInt64>() noexcept { return UInt64(0); }
+
+	// --- Float specializations (std::bit_cast) ---
+
+	template<> LEIBNIZ_FORCEINLINE constexpr Float32 trueVal<Float32>() noexcept {
+		return std::bit_cast<Float32>(0xFFFFFFFFu);
+	}
+	template<> LEIBNIZ_FORCEINLINE constexpr Float32 falseVal<Float32>() noexcept {
+		return std::bit_cast<Float32>(0x00000000u);
+	}
+	template<> LEIBNIZ_FORCEINLINE constexpr Float64 trueVal<Float64>() noexcept {
+		return std::bit_cast<Float64>(0xFFFFFFFFFFFFFFFFull);
+	}
+	template<> LEIBNIZ_FORCEINLINE constexpr Float64 falseVal<Float64>() noexcept {
+		return std::bit_cast<Float64>(0x0000000000000000ull);
+	}
 }

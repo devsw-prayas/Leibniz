@@ -35,6 +35,8 @@ target_include_directories(Leibniz
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Backend
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Intrin
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Compiler
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Numerics
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Kernels
 )
 
 target_precompile_headers(Leibniz PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Public/Leibniz.h)
