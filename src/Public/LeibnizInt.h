@@ -2,6 +2,17 @@
 #include "Leibniz.h"
 #include "NumericTraits.h"
 
+
+struct Int128;
+struct Int256;
+struct Int512;
+struct Int1024;
+
+struct UInt128;
+struct UInt256;
+struct UInt512;
+struct UInt1024;
+
 namespace Leibniz::Numerics {
 	using Byte = std::int8_t;
 	using Int16 = std::int16_t;

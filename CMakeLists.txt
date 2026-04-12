@@ -13,6 +13,7 @@ file(GLOB_RECURSE LEIBNIZ_BACKEND       "${CMAKE_CURRENT_SOURCE_DIR}/src/Backend
 file(GLOB_RECURSE LEIBNIZ_INTRIN       "${CMAKE_CURRENT_SOURCE_DIR}/src/Intrin/*.h")
 file(GLOB_RECURSE LEIBNIZ_COMPILER       "${CMAKE_CURRENT_SOURCE_DIR}/src/Compiler/*.h")
 file(GLOB_RECURSE LEIBNIZ_NUMERICS       "${CMAKE_CURRENT_SOURCE_DIR}/src/Numerics/*.h")
+file(GLOB_RECURSE LEIBNIZ_KERNELS      "${CMAKE_CURRENT_SOURCE_DIR}/src/Kernels/*.h")
     
 add_library(Leibniz SHARED
     ${LEIBNIZ_PRIVATE}
@@ -21,6 +22,7 @@ add_library(Leibniz SHARED
     ${LEIBNIZ_INTRIN}
     ${LEIBNIZ_COMPILER}
     ${LEIBNIZ_NUMERICS}
+    ${LEIBNIZ_KERNELS}
 )
 
 set_source_files_properties(${LEIBNIZ_ASM} PROPERTIES LANGUAGE ASM_MASM)
@@ -33,6 +35,8 @@ target_include_directories(Leibniz
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Backend
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Intrin
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Compiler
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Numerics
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Kernels
 )
 
 target_precompile_headers(Leibniz PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Public/Leibniz.h)
