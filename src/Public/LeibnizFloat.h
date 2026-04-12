@@ -2,6 +2,13 @@
 #include "Leibniz.h"
 #include "NumericTraits.h"
 
+struct BFloat16;
+struct Float16;
+struct Float128;
+struct Float256;
+struct Float512;
+struct Float1024;
+
 namespace Leibniz::Numerics {
 	using Float32 = float;
 	using Float64 = double;

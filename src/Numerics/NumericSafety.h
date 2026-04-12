@@ -2,7 +2,7 @@
 #include <bit>
 
 #include "LeibnizInt.h"
-#include "LeibnizLimits.h"
+#include "LeibnizNumbers.h"
 #include "VectorizeType256.h"
 #include "VectorNumericTraits.h"
 #include "VectorOps256.h"
@@ -28,7 +28,7 @@ namespace Leibniz::Numerics::Safety {
 				Vectorization::v256::Stripe64>>>;
 		public:
 			template<typename U = std::conditional_t<Vectorized::Traits::IsVectorizedFloatV<T>, Vectorization::Traits::VectorizedMask<T>, bool> >
-			static U almostEquals(T a, T b, T eps = Constants::NumericLimits<T>::epsilon()) {
+			static U almostEquals(T a, T b, T eps = LeibnizConstants<T>::epsilon()) {
 				if constexpr (std::is_same_v<T, Float32>) {
 					UInt32 diff = std::bit_cast<UInt32>(a - b);
 					diff &= 0x7fffffff;
