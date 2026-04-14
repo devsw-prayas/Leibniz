@@ -2056,4 +2056,4 @@ namespace Leibniz::LinAlg::Internal::Kernels::Scalar {
 										 });
 #endif
 	}
-} // namespace Leibniz::LinAlg::Internal::Kernels::Scalar
+} 

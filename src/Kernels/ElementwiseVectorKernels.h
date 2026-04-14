@@ -31,10 +31,10 @@
 #include <immintrin.h>
 #include "LeibnizCompiler.h"
 #include "LeibnizDiagnostics.h"
-#include "ElementwiseKernels.h"
+#include "ElementwiseScalarKernels.h"
 
 namespace Leibniz::LinAlg::Internal::Kernels {
-
+    using namespace Scalar;
 
     // ============================================================
     // Exp - base-e exponential, Horner(x, c)
@@ -88,7 +88,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExpBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExpBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -139,7 +139,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExpApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExpApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -190,7 +190,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExpBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExpBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -241,7 +241,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExpApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExpApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -298,7 +298,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExpm1Balanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExpm1Balanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -349,7 +349,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExpm1Approximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExpm1Approximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -400,7 +400,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExpm1Balanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExpm1Balanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -451,7 +451,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExpm1Approximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExpm1Approximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -508,7 +508,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExp2Balanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExp2Balanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -559,7 +559,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExp2Approximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExp2Approximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -610,7 +610,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExp2Balanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExp2Balanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -661,7 +661,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExp2Approximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExp2Approximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -718,7 +718,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExp10Balanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExp10Balanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -769,7 +769,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExp10Approximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExp10Approximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -820,7 +820,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExp10Balanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExp10Balanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -871,7 +871,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledExp10Approximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarExp10Approximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -928,7 +928,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLog1pBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLog1pBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -979,7 +979,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLog1pApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLog1pApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1030,7 +1030,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLog1pBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLog1pBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1081,7 +1081,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLog1pApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLog1pApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1138,7 +1138,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLog2Balanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLog2Balanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1189,7 +1189,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLog2Approximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLog2Approximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1240,7 +1240,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLog2Balanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLog2Balanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1291,7 +1291,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLog2Approximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLog2Approximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1348,7 +1348,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLog10Balanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLog10Balanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1399,7 +1399,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLog10Approximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLog10Approximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1450,7 +1450,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLog10Balanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLog10Balanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1501,7 +1501,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLog10Approximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLog10Approximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1558,7 +1558,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledSinBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarSinBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1609,7 +1609,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledSinApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarSinApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1660,7 +1660,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledSinBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarSinBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1711,7 +1711,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledSinApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarSinApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1768,7 +1768,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledCosBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarCosBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1819,7 +1819,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledCosApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarCosApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1870,7 +1870,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledCosBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarCosBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1921,7 +1921,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledCosApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarCosApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -1978,7 +1978,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledTanBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarTanBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2029,7 +2029,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledTanApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarTanApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2080,7 +2080,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledTanBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarTanBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2131,7 +2131,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledTanApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarTanApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2188,7 +2188,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAsinBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAsinBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2239,7 +2239,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAsinApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAsinApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2290,7 +2290,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAsinBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAsinBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2341,7 +2341,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAsinApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAsinApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2398,7 +2398,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAtanBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAtanBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2449,7 +2449,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAtanApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAtanApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2500,7 +2500,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAtanBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAtanBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2551,7 +2551,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAtanApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAtanApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2608,7 +2608,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledSinhBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarSinhBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2659,7 +2659,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledSinhApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarSinhApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2710,7 +2710,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledSinhBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarSinhBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2761,7 +2761,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledSinhApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarSinhApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2818,7 +2818,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledCoshBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarCoshBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2869,7 +2869,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledCoshApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarCoshApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2920,7 +2920,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledCoshBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarCoshBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -2971,7 +2971,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledCoshApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarCoshApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3028,7 +3028,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAsinhBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAsinhBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3079,7 +3079,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAsinhApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAsinhApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3130,7 +3130,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAsinhBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAsinhBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3181,7 +3181,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAsinhApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAsinhApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3238,7 +3238,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAcoshBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAcoshBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3289,7 +3289,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAcoshApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAcoshApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3340,7 +3340,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAcoshBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAcoshBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3391,7 +3391,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAcoshApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAcoshApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3448,7 +3448,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAtanhBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAtanhBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3499,7 +3499,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAtanhApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAtanhApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3550,7 +3550,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAtanhBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAtanhBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3601,7 +3601,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledAtanhApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarAtanhApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3658,7 +3658,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledErfBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarErfBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3709,7 +3709,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledErfApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarErfApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3760,7 +3760,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledErfBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarErfBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3811,7 +3811,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledErfApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarErfApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3868,7 +3868,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledErfcAsymptoticBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarErfcAsymptoticBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3919,7 +3919,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledErfcAsymptoticApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarErfcAsymptoticApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -3970,7 +3970,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledErfcAsymptoticBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarErfcAsymptoticBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4021,7 +4021,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledErfcAsymptoticApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarErfcAsymptoticApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4078,7 +4078,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledSqrtSeedBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarSqrtSeedBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4129,7 +4129,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledSqrtSeedApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarSqrtSeedApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4180,7 +4180,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledSqrtSeedBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarSqrtSeedBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4231,7 +4231,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledSqrtSeedApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarSqrtSeedApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4288,7 +4288,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledRsqrtSeedBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarRsqrtSeedBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4339,7 +4339,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledRsqrtSeedApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarRsqrtSeedApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4390,7 +4390,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledRsqrtSeedBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarRsqrtSeedBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4441,7 +4441,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledRsqrtSeedApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarRsqrtSeedApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4498,7 +4498,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledCbrtSeedBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarCbrtSeedBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4549,7 +4549,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledCbrtSeedApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarCbrtSeedApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4600,7 +4600,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledCbrtSeedBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarCbrtSeedBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4651,7 +4651,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledCbrtSeedApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarCbrtSeedApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4708,7 +4708,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLanczosBalanced_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLanczosBalanced_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4759,7 +4759,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLanczosApproximate_f32<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLanczosApproximate_f32<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4810,7 +4810,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLanczosBalanced_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLanczosBalanced_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
@@ -4861,7 +4861,7 @@ namespace Leibniz::LinAlg::Internal::Kernels {
             if constexpr (remainder > 0) {
                 constexpr size_t tail_offset = num_blocks * UnrollWidth * lane_count;
                 Leibniz::LinAlg::Internal::Kernels::Scalar::
-                    UnrolledLanczosApproximate_f64<remainder>::compute(in + tail_offset, out + tail_offset);
+                    unrolledScalarLanczosApproximate_f64<remainder>(in + tail_offset, out + tail_offset);
             }
         }
     };
