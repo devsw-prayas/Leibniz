@@ -14,7 +14,6 @@
 #define LEIBNIZ_SIMD_SCALAR 1
 #endif
 
-namespace Leibniz {
 #if defined(_MSC_VER)
 #define LEIBNIZ_COMPILER_MSVC 1
 #else
@@ -32,7 +31,6 @@ namespace Leibniz {
 #else
 #define LEIBNIZ_COMPILER_GCC 0
 #endif
-}
 
 #if LEIBNIZ_COMPILER_MSVC
 #define LEIBNIZ_FORCEINLINE __forceinline
@@ -58,9 +56,12 @@ namespace Leibniz {
 #if LEIBNIZ_COMPILER_MSVC
 #define LEIBNIZ_OPTIMIZE_OFF __pragma(optimize("", off))
 #define LEIBNIZ_OPTIMIZE_ON  __pragma(optimize("", on))
-#elif LEIBNIZ_COMPILER_CLANG || LEIBNIZ_COMPILER_GCC
+#elif LEIBNIZ_COMPILER_CLANG
 #define LEIBNIZ_OPTIMIZE_OFF _Pragma("clang optimize off")
 #define LEIBNIZ_OPTIMIZE_ON  _Pragma("clang optimize on")
+#elif LEIBNIZ_COMPILER_GCC
+#define LEIBNIZ_OPTIMIZE_OFF _Pragma("GCC optimize(\"O0\")")
+#define LEIBNIZ_OPTIMIZE_ON  _Pragma("GCC optimize(\"O2\")")
 #else
 #define LEIBNIZ_OPTIMIZE_OFF
 #define LEIBNIZ_OPTIMIZE_ON
@@ -102,14 +103,21 @@ namespace Leibniz {
 #define LEIBNIZ_PRAGMA(x)
 #endif
 
-#define LEIBNIZ_DIAGNOSTIC_PUSH LEIBNIZ_PRAGMA(diagnostic push)
-#define LEIBNIZ_DIAGNOSTIC_POP  LEIBNIZ_PRAGMA(diagnostic pop)
-
 #if LEIBNIZ_COMPILER_MSVC
+#define LEIBNIZ_DIAGNOSTIC_PUSH    LEIBNIZ_PRAGMA(warning(push))
+#define LEIBNIZ_DIAGNOSTIC_POP     LEIBNIZ_PRAGMA(warning(pop))
 #define LEIBNIZ_DISABLE_WARNING(w) LEIBNIZ_PRAGMA(warning(disable : w))
-#elif LEIBNIZ_COMPILER_CLANG || LEIBNIZ_COMPILER_GCC
+#elif LEIBNIZ_COMPILER_CLANG
+#define LEIBNIZ_DIAGNOSTIC_PUSH    LEIBNIZ_PRAGMA(clang diagnostic push)
+#define LEIBNIZ_DIAGNOSTIC_POP     LEIBNIZ_PRAGMA(clang diagnostic pop)
 #define LEIBNIZ_DISABLE_WARNING(w) LEIBNIZ_PRAGMA(clang diagnostic ignored w)
+#elif LEIBNIZ_COMPILER_GCC
+#define LEIBNIZ_DIAGNOSTIC_PUSH    LEIBNIZ_PRAGMA(GCC diagnostic push)
+#define LEIBNIZ_DIAGNOSTIC_POP     LEIBNIZ_PRAGMA(GCC diagnostic pop)
+#define LEIBNIZ_DISABLE_WARNING(w) LEIBNIZ_PRAGMA(GCC diagnostic ignored w)
 #else
+#define LEIBNIZ_DIAGNOSTIC_PUSH
+#define LEIBNIZ_DIAGNOSTIC_POP
 #define LEIBNIZ_DISABLE_WARNING(w)
 #endif
 
