@@ -1,7 +1,7 @@
 #include "Leibniz.h"
 #include "asmintrin.h"
 
-#if LEIBNIZ_COMPILER_MSVC
+#if LEIBNIZ_COMPILER_MSVC && !LEIBNIZ_COMPILER_CLANG
 namespace Leibniz::Intrin {
 	uint64_t mulx_u64(uint64_t a, uint64_t b, uint64_t& hi) {
 		return Internal::asmMulxU64(a, b, &hi);

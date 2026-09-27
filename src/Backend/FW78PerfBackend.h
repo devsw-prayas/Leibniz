@@ -80,7 +80,7 @@ namespace Leibniz::Numbers::Backend::Implementations {
 				ro_Out.m_Stripes[idx] = ro_In.m_Stripes[idx]; }));
 		}
 
-		LEIBNIZ_FORCEINLINE LEIBNIZ_NODISCARD_MSG("Cannot discard comparison")
+		LEIBNIZ_NODISCARD_MSG("Cannot discard comparison") LEIBNIZ_FORCEINLINE
 			static int compareImpl(const context_& ro_OpA, const context_& ro_OpB) {
 			int result = 0;
 			Utils::Unrolled::staticIf<AllowFullWidth>(
