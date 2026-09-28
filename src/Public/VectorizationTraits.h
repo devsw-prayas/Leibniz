@@ -3,7 +3,7 @@
 
 namespace Leibniz::Vectorization::Traits {
 
-	enum class LEIBNIZ_RUNTIME_API VectorizationBackend : uint8_t {
+	enum class VectorizationBackend : uint8_t {
 		UNKNOWN,
 		AVX2
 	};

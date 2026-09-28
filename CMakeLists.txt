@@ -44,8 +44,8 @@ target_precompile_headers(Leibniz PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Public
 set_target_properties(Leibniz PROPERTIES FOLDER "Base")
 
 target_compile_options(Leibniz PRIVATE
-    $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:MSVC>>:/arch:AVX2>
-    $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<NOT:$<CXX_COMPILER_ID:MSVC>>>:-mavx2>
+    $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_FRONTEND_VARIANT:MSVC>>:/arch:AVX2>
+    $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<NOT:$<CXX_COMPILER_FRONTEND_VARIANT:MSVC>>>:-mavx2>
 )
 
 target_compile_definitions(Leibniz PRIVATE        

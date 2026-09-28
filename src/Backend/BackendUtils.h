@@ -7,7 +7,7 @@
 namespace Leibniz::Numbers::Backend {
 	// IEEE 754 - 2019 extended rounding mode for operations where a terminating representation
 	// is not possible due to precision limits or the nature of the number to be represented
-	enum class LEIBNIZ_RUNTIME_API  RoundingMode : uint8_t {
+	enum class RoundingMode : uint8_t {
 		RNearestEven,				  // -> Rounded to nearest even
 		RUp,						  // -> Round up towards +ve infinity
 		RDown,						  // -> Round down towards -ve infinity
@@ -18,7 +18,7 @@ namespace Leibniz::Numbers::Backend {
 	};
 
 	// RangeReduction Modes are accumulation behaviors that are only supported by fixed width backends
-	enum class LEIBNIZ_RUNTIME_API RangeReduction : uint8_t {
+	enum class RangeReduction : uint8_t {
 		ReductionTruncate,			  //  -> Truncate higher order bits in accumulation to fixed witth
 		ReductionWrapAround,		  //  -> WrapAround on overflow
 		ReductionSaturate,			  //  -> Satruate accumulation, if exceeds max
