@@ -56,3 +56,12 @@ target_compile_options(Leibniz PRIVATE
 target_compile_definitions(Leibniz PRIVATE        
         LEIBNIZ_SHARED
         LEIBNIZ_BUILDING_RUNTIME)   
+
+# AUTO follows _DEBUG (set by the debug CRT); ON/OFF pin it. Leibniz-scoped, so it never collides with a host's DEBUG.
+set(LEIBNIZ_ENABLE_DEBUG_CHECKS AUTO CACHE STRING "Leibniz asserts: AUTO (follow _DEBUG), ON or OFF")
+set_property(CACHE LEIBNIZ_ENABLE_DEBUG_CHECKS PROPERTY STRINGS AUTO ON OFF)
+if (LEIBNIZ_ENABLE_DEBUG_CHECKS STREQUAL "ON")
+    target_compile_definitions(Leibniz PUBLIC LEIBNIZ_DEBUG_CHECKS=1)
+elseif (LEIBNIZ_ENABLE_DEBUG_CHECKS STREQUAL "OFF")
+    target_compile_definitions(Leibniz PUBLIC LEIBNIZ_DEBUG_CHECKS=0)
+endif()

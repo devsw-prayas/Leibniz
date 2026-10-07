@@ -1,13 +1,15 @@
 #pragma once
 #include <LeibnizCompiler.h>
 
-#if defined(_DEBUG) || defined(DEBUG)
+// LEIBNIZ_DEBUG_CHECKS (0/1) comes from LEIBNIZ_ENABLE_DEBUG_CHECKS=ON/OFF; unset (AUTO) follows _DEBUG.
+#if defined(LEIBNIZ_DEBUG_CHECKS)
+#define LEIBNIZ_BUILD_DEBUG LEIBNIZ_DEBUG_CHECKS
+#elif defined(_DEBUG)
 #define LEIBNIZ_BUILD_DEBUG 1
-#define LEIBNIZ_BUILD_RELEASE 0
 #else
 #define LEIBNIZ_BUILD_DEBUG 0
-#define LEIBNIZ_BUILD_RELEASE 1
 #endif
+#define LEIBNIZ_BUILD_RELEASE (!LEIBNIZ_BUILD_DEBUG)
 
 #if LEIBNIZ_BUILD_DEBUG
 #define LEIBNIZ_ASSERT(expr)                        \
